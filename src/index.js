@@ -1,14 +1,19 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import * as serviceWorker from './serviceWorker';
+import React from "react";
+import ReactDOM from "react-dom";
+import "./index.css";
+import App from "./App";
+import * as serviceWorker from "./serviceWorker";
+import { BrowserRouter } from "react-router-dom";
+import { ConfigProvider } from "antd";
+import ru_RU from 'antd/es/locale/ru_RU';
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
+	<ConfigProvider locale={ru_RU}>
+		<BrowserRouter>
+			<App />
+		</BrowserRouter>
+	</ConfigProvider>,
+	document.getElementById("root")
 );
 
 // If you want your app to work offline and load faster, you can change

@@ -6,13 +6,15 @@ const Main = () => {
 	return (
 		<>
 			<div className="mainTitle">
-				<div className="mainText">Найдите дом, который Вам понравится</div>
-				<div className="mainTextSmall">
+				<div className="mainText noselect">
+					Найдите дом, который Вам понравится
+				</div>
+				<div className="mainTextSmall noselect">
 					Попрощайтесь с бессмысленными поездками к агентам по недвижимости,
 					бесконечной бумажной работой и заоблачными депозитами.
 				</div>
 			</div>
-            <MainSearchBlock />
+			<MainSearchBlock />
 		</>
 	);
 };

@@ -1,5 +1,6 @@
 import { Button } from "antd";
 import React from "react";
+import { Link } from "react-router-dom";
 import "./MainSearchBlock.css";
 
 const MainSearchBlock = () => {
@@ -8,10 +9,18 @@ const MainSearchBlock = () => {
 			<div className="searchBlock">
 				<div className="searchBlock_header">
 					<div className="searchBlock_header__textWrap">
-						<div className="searchBlock_header__textMain">Недвижимость Волгограда</div>
-						<div className="searchBlock_header__textSmall">Найдите свою квартиру или дом прямо сейчас</div>
+						<div className="searchBlock_header__textMain noselect">
+							Недвижимость Волгограда
+						</div>
+						<div className="searchBlock_header__textSmall noselect">
+							Найдите свою квартиру или дом прямо сейчас
+						</div>
 					</div>
-					<Button className="searchBlockBtn" type="primary">Поиск</Button>
+					<Link to="/search">
+						<Button className="searchBlockBtn" type="primary">
+							Поиск
+						</Button>
+					</Link>
 				</div>
 			</div>
 		</>

@@ -1,0 +1,165 @@
+.background {
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    left: 0px;
+    top: 0px;
+    background: rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(6px);
+    /* Note: backdrop-filter has minimal browser support */
+    z-index: 2;
+}
+
+
+.loginForm {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 420px;
+    height: 389px;
+    background: #FFFFFF;
+    border-radius: 28px;
+    z-index: 3;
+}
+
+.registration {
+    height: 490px;
+}
+
+.loginFormRel {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.loginForm_title {
+    position: absolute;
+    width: 180px;
+    height: 32px;
+    left: 120px;
+    top: 39px;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 32px;
+    text-align: center;
+    color: #000000;
+    margin-bottom: 9px;
+    cursor: default;
+}
+
+.loginForm_title__wrap {
+    position: absolute;
+    width: 220px;
+    height: 20px;
+    top: 80px;
+    left: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: default;
+}
+
+.reg {
+    color: rgba(24, 67, 219, 0.7);
+    cursor: pointer;
+    margin-left: 5px;
+}
+
+.reg:hover {
+    color: rgba(24, 67, 219, 1);
+}
+
+.log {
+    color: rgba(64, 174, 108, 0.7);
+    cursor: pointer;
+    margin-left: 5px;
+}
+
+.log:hover {
+    color: rgba(64, 174, 108, 1);
+}
+
+.lfAfterTitileText {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: 300;
+    font-size: 14px;
+    line-height: 22px;
+    text-align: center;
+    letter-spacing: 0.05em;
+}
+
+.loginForm_input {
+    width: 300px;
+    height: 40px;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 24px;
+}
+
+.fio {
+    left: 60px;
+    top: 155px;
+}
+
+.phone {
+    left: 60px;
+    top: 155px;
+}
+
+.email {
+    left: 60px;
+    top: 155px;
+}
+
+.password {
+    left: 60px;
+    top: 155px;
+}
+
+.mb20 {
+    margin-bottom: 20px;
+}
+
+.loginForm_forgotPass {
+    position: absolute;
+    width: 116px;
+    height: 22px;
+    left: 245px;
+    bottom: 113px;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: 300;
+    font-size: 14px;
+    line-height: 22px;
+    text-align: right;
+    letter-spacing: 0.05em;
+    color: rgba(24, 67, 219, 0.7);
+    cursor: pointer;
+}
+
+.loginForm_forgotPass:hover {
+    color: rgba(24, 67, 219, 1);
+}
+
+.loginFormBtn {
+    position: absolute;
+    width: 180px;
+    height: 40px;
+    left: 120px;
+    bottom: 39px;
+    border-radius: 8px;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
+    text-align: center;
+    letter-spacing: 0.05em;
+    color: #FFFFFF;
+}

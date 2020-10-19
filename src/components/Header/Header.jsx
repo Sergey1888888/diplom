@@ -3,14 +3,14 @@ import React from "react";
 import { Link } from "react-router-dom";
 import "./Header.css";
 
-const Header = () => {
+const Header = ({onLoginClicked}) => {
 	return (
 		<div className="header">
 			<div className="logoLoginWrapper">
 				<Link to="/" className="logo">
 					Volgograd realty
 				</Link>
-				<Button className="login" type="default" ghost>
+				<Button onClick={onLoginClicked} className="login" type="default" ghost>
 					Вход
 				</Button>
 			</div>

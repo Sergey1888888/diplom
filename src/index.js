@@ -5,12 +5,16 @@ import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 import { BrowserRouter } from "react-router-dom";
 import { ConfigProvider } from "antd";
-import ru_RU from 'antd/es/locale/ru_RU';
+import ru_RU from "antd/es/locale/ru_RU";
+import { Provider } from "react-redux";
+import store from "./redux/store";
 
 ReactDOM.render(
 	<ConfigProvider locale={ru_RU}>
 		<BrowserRouter>
-			<App />
+			<Provider store={store}>
+				<App />
+			</Provider>
 		</BrowserRouter>
 	</ConfigProvider>,
 	document.getElementById("root")

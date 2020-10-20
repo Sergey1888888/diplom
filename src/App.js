@@ -6,7 +6,8 @@ import Line from "./components/Line/Line";
 import Main from "./components/Main/Main";
 import { setIsClicked } from "./redux/actions";
 import { connect } from "react-redux";
-import Login from "./components/Modals/Login/Login";
+import Form from "./components/Modals/Login/Form";
+import QueueAnim from "rc-queue-anim";
 
 class App extends React.Component {
 	state = {
@@ -19,7 +20,7 @@ class App extends React.Component {
 		});
 	};
 
-	onLoginBackgroundClick = (e) => {
+	onFormBackgroundClick = (e) => {
 		if (!e.target.closest(".loginForm")) {
 			this.setState({
 				showLogin: false,
@@ -31,9 +32,15 @@ class App extends React.Component {
 		return (
 			<div className="App">
 				<div className="column_wrap">
-					{this.state.showLogin && (
-						<Login onLoginBackgroundClick={this.onLoginBackgroundClick} />
-					)}
+					<QueueAnim type="alpha">
+						{this.state.showLogin && (
+							<Form
+								key="0"
+								onFormBackgroundClick={this.onFormBackgroundClick}
+							/>
+						)}
+					</QueueAnim>
+
 					<Header onLoginClicked={this.onLoginClicked} />
 					<Line />
 					{/* Clicked ? {this.props.isClicked ? "YEP" : "NOPE"} */}

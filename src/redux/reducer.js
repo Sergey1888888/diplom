@@ -1,13 +1,13 @@
-const { CLICKED_SUCCESS } = require("./actions");
+const { SET_PROFILE } = require("./actions");
 
 const initialState = {
-	isClicked: false,
+	profile: null,
 };
 
 const reducer = (state = initialState, action) => {
 	switch (action.type) {
-		case CLICKED_SUCCESS:
-			return { ...state, isClicked: true };
+		case SET_PROFILE:
+			return { ...state, profile: action.payload };
 		default:
 			return state;
 	}

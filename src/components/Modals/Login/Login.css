@@ -6,8 +6,7 @@
 	top: 0px;
 	background: rgba(0, 0, 0, 0.2);
 	backdrop-filter: blur(6px);
-	/* Note: backdrop-filter has minimal browser support */
-    z-index: 2;
+	z-index: 2;
 }
 
 .loginForm {
@@ -19,7 +18,7 @@
 	height: 389px;
 	background: #ffffff;
 	border-radius: 28px;
-    z-index: 3;
+	z-index: 3;
 }
 
 .registration {
@@ -62,23 +61,23 @@
 }
 
 .reg {
-	color: rgba(24, 67, 219, 0.7);
+	color: #00b0ff;
 	cursor: pointer;
 	margin-left: 5px;
 }
 
 .reg:hover {
-	color: rgba(24, 67, 219, 1);
+	color: #008dd9;
 }
 
 .log {
-	color: rgba(64, 174, 108, 0.7);
+	color: #00b0ff;
 	cursor: pointer;
 	margin-left: 5px;
 }
 
 .log:hover {
-	color: rgba(64, 174, 108, 1);
+	color: #008dd9;
 }
 
 .lfAfterTitileText {
@@ -92,7 +91,7 @@
 }
 
 .loginForm_input {
-    position: absolute;
+	position: absolute;
 	width: 300px;
 	height: 40px;
 	font-family: Roboto;
@@ -103,15 +102,15 @@
 }
 
 .loginForm_inputWrap {
-    position: absolute;
-    width: 300px;
-    height: 100px;
-    top: 155px;
-    left: 60px;
+	position: absolute;
+	width: 300px;
+	height: 100px;
+	top: 155px;
+	left: 60px;
 }
 
 .inputWrapReg {
-    height: 220px;
+	height: 220px;
 }
 
 .fio {
@@ -127,7 +126,7 @@
 }
 
 .emailReg {
-    top: 120px;
+	top: 120px;
 }
 
 .password {
@@ -155,12 +154,12 @@
 	line-height: 22px;
 	text-align: right;
 	letter-spacing: 0.05em;
-	color: rgba(24, 67, 219, 0.7);
+	color: #00b0ff;
 	cursor: pointer;
 }
 
 .loginForm_forgotPass:hover {
-	color: rgba(24, 67, 219, 1);
+	color: #008dd9;
 }
 
 .loginFormBtn {

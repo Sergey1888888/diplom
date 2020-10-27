@@ -8,6 +8,7 @@
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
     "antd": "^4.7.0",
+    "classnames": "^2.2.6",
     "craco-less": "^1.17.0",
     "rc-queue-anim": "^1.8.5",
     "rc-tween-one": "^2.7.3",

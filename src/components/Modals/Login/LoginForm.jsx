@@ -3,7 +3,7 @@ import "./Login.css";
 import Registration from "./Registration";
 import Login from "./Login";
 
-const Form = ({ onFormBackgroundClick }) => {
+const LoginForm = ({ onFormBackgroundClick }) => {
 	const [isReg, setIsReg] = useState(false);
 	return (
 		<div onClick={onFormBackgroundClick} className="background">
@@ -20,4 +20,4 @@ const Form = ({ onFormBackgroundClick }) => {
 	);
 };
 
-export default Form;
+export default LoginForm;

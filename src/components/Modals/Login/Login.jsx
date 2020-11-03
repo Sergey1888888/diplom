@@ -21,6 +21,8 @@ const Login = ({ setIsReg }) => {
 						placeholder="E-mail"
 						allowClear
 					/>
+				</div>
+				<div key="2">
 					<Input.Password
 						key="2"
 						className="loginForm_input password"
@@ -28,9 +30,11 @@ const Login = ({ setIsReg }) => {
 					/>
 				</div>
 			</QueueAnim>
-			<div key="3" className="loginForm_forgotPass">
-				Забыли пароль?
-			</div>
+			<QueueAnim type="right">
+				<div key="1" className="loginForm_forgotPass">
+					Забыли пароль?
+				</div>
+			</QueueAnim>
 			<Button className="loginFormBtn" type="primary">
 				Войти
 			</Button>

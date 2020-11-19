@@ -4,16 +4,16 @@ import { Link, useLocation } from "react-router-dom";
 import cn from "classnames";
 import "./Header.css";
 
-const HomePageHeader = ({ onLoginClicked }) => {
+const HomePageHeader = ({ onLoginFormClicked, profile }) => {
 	return (
 		<>
 			<div className="logoLoginWrapper">
 				<Link to="/" className="logo">
 					Volgograd realty
 				</Link>
-				{true ? (
+				{!profile ? (
 					<Button
-						onClick={onLoginClicked}
+						onClick={onLoginFormClicked}
 						className="login"
 						type="default"
 						ghost
@@ -25,12 +25,12 @@ const HomePageHeader = ({ onLoginClicked }) => {
 						<div style={{ color: "rgba(0, 0, 0, 0.7)", paddingRight: "0.5em" }}>
 							Здравствуйте,
 						</div>
-						Заборонок Сергей!
+						{profile.surname} {profile.name}!
 					</Link>
 				)}
 			</div>
-			<div className="logoutSearchWrapper">
-				{true && (
+			<div className={cn("logoutSearchWrapper", { logged: !profile })}>
+				{profile && (
 					<Button className="logout" type="default" danger>
 						Выйти
 					</Button>
@@ -45,41 +45,61 @@ const HomePageHeader = ({ onLoginClicked }) => {
 	);
 };
 
-const SearchPageHeader = ({ onLoginClicked }) => {
+const SearchPageHeader = ({ onLoginFormClicked, profile }) => {
 	return (
 		<>
 			<div className="logoLoginWrapperSearch">
 				<Link to="/" className="logoSearch">
 					Volgograd realty
 				</Link>
-				{true && (
+				{profile && (
 					<Link to="/profile" className="authName authNameSearch">
 						<div style={{ color: "rgba(0, 0, 0, 0.7)", paddingRight: "0.5em" }}>
 							Здравствуйте,
 						</div>
-						Заборонок Сергей!
+						{profile.surname} {profile.name}!
 					</Link>
 				)}
 			</div>
-			<div className="salesLogoutWrapper">
-				<Button className="mySales" type="link">
-					Мои продажи
-				</Button>
-				<Button className="logout" type="default" danger>
-					Выйти
-				</Button>
+			<div className={cn("salesLogoutWrapper", { logged: !profile })}>
+				{!profile ? (
+					<Button
+						onClick={onLoginFormClicked}
+						className="login"
+						type="default"
+						ghost
+					>
+						Вход
+					</Button>
+				) : (
+					<>
+						<Button className="mySales" type="link">
+							Мои продажи
+						</Button>
+						<Button className="logout" type="default" danger>
+							Выйти
+						</Button>
+					</>
+				)}
 			</div>
+			{/* TODO добавить кнопку входа */}
 		</>
 	);
 };
-const Header = ({ onLoginClicked }) => {
+const Header = ({ onLoginFormClicked, profile }) => {
 	const isSearchPage = useLocation().pathname === "/search";
 	return (
 		<div className={cn("header", { search: isSearchPage })}>
 			{isSearchPage ? (
-				<SearchPageHeader />
+				<SearchPageHeader
+					onLoginFormClicked={onLoginFormClicked}
+					profile={profile}
+				/>
 			) : (
-				<HomePageHeader onLoginClicked={onLoginClicked} />
+				<HomePageHeader
+					onLoginFormClicked={onLoginFormClicked}
+					profile={profile}
+				/>
 			)}
 		</div>
 	);

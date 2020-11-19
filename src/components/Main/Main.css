@@ -10,11 +10,6 @@
 .mainText{
     width: 980px;
     height: 50px;
-    font-family: Roboto;
-    font-style: normal;
-    font-weight: 500;
-    font-size: 48px;
-    line-height: 46px;
     text-align: center;
     color: rgba(0, 0, 0, 0.7);
     margin-bottom: 8px;
@@ -23,12 +18,6 @@
 .mainTextSmall {
     width: 940px;
     height: 50px;
-    font-family: Roboto;
-    font-style: normal;
-    font-weight: 300;
-    font-size: 24px;
-    line-height: 28px;
     text-align: center;
-    letter-spacing: 0.05em;
     color: rgba(0, 0, 0, 0.7);
 }

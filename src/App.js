@@ -1,10 +1,10 @@
 import React from "react";
-import { Route } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 import "./App.less";
 import Main from "./components/Main/Main";
-import { setProfile } from "./redux/actions";
-import { connect } from "react-redux";
+import SearchPage from "./components/SearchPage/SearchPage";
 import HeaderContainer from "./components/Header/HeaderContainer";
+import Profile from "./components/Profile/Profile";
 
 class App extends React.Component {
 	render() {
@@ -12,21 +12,15 @@ class App extends React.Component {
 			<div className="App">
 				<div className="column_wrap">
 					<HeaderContainer />
-					<div className="line"></div>
-					{/* Clicked ? {this.props.isClicked ? "YEP" : "NOPE"} */}
-					{/* <button onClick={() => this.props.setIsClicked()}>CLICK</button> */}
-					<Route exact path="/" render={() => <Main />} />
+					<Switch>
+						<Route exact path="/" render={() => <Main />} />
+						<Route exact path="/search" render={() => <SearchPage />} />
+						<Route exact path="/profile" render={() => <Profile />} />
+						<Route render={() => <div>404</div>} />
+					</Switch>
 				</div>
 			</div>
 		);
 	}
 }
-
-// const mapStateToProps = (state) => {
-// 	return {
-// 		isClicked: state.app.isClicked,
-// 	};
-// };
-
-// export default connect(mapStateToProps, { setIsClicked })(App);
 export default App;

@@ -1,51 +1,55 @@
 import React from "react";
-import { Button, Input } from "antd";
-import QueueAnim from "rc-queue-anim";
+import { Input, Form } from "formik-antd";
+import { Formik } from "formik";
+import * as Yup from "yup";
+import { useSelector } from "react-redux";
 
-const Login = ({ setIsReg, onLoginButtonClicked }) => {
+const Login = ({ closeModal, onLoginButtonClicked }) => {
+	const profile = useSelector((state) => state.auth.profile);
+	if (profile != null) {
+		closeModal();
+	}
 	return (
-		<QueueAnim type="top">
-			<div key="1" className="loginForm_title fw500 fs24 lh32 noselect">
-				Вход
-			</div>
-			<div key="2" className="loginForm_title__wrap noselect">
-				<span className="lfAfterTitileText fw300 fs14 ls">Нет аккаунта?</span>
-				<span
-					onClick={() => setIsReg(true)}
-					className="reg lfAfterTitileText fw300 fs14 ls"
-				>
-					Регистрация
-				</span>
-			</div>
-			<QueueAnim className="loginForm_inputWrap">
-				<div key="1">
-					<Input
-						className="loginForm_input fw500 email mb20"
-						placeholder="E-mail"
-						allowClear
-					/>
-				</div>
-				<div key="2">
-					<Input.Password
-						key="2"
-						className="loginForm_input fw500 password"
-						placeholder="Пароль"
-					/>
-				</div>
-			</QueueAnim>
-			<QueueAnim type="right">
-				<div key="1" className="loginForm_forgotPass fw300 fs14 ls">
-					Забыли пароль?
-				</div>
-			</QueueAnim>
-			<Button
-				onClick={onLoginButtonClicked}
-				className="loginFormBtn fw500 ls"
-				type="primary"
-			>
-				Войти
-			</Button>
-		</QueueAnim>
+		<Formik
+			initialValues={{ email: "", password: "" }}
+			validationSchema={Yup.object({
+				email: Yup.string()
+					.email("Неправильный email")
+					.required("Обязательное поле"),
+				password: Yup.string()
+					.matches(
+						new RegExp(
+							"^(?=.*[a-zа-яё])(?=.*[A-ZА-ЯЁ])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})"
+						),
+						"Пароль должен состоять из букв верхнего и нижнего регистра, как минимум 1 цифры и 1 спец. символа. Минимальная длина - 8 символов."
+					)
+					.required("Обязательное поле"),
+			})}
+			onSubmit={(values, { setSubmitting }) => {
+				onLoginButtonClicked(values.email, values.password);
+				setSubmitting(false);
+			}}
+		>
+			{({ isSubmitting }) => (
+				<Form id="loginForm">
+					<Form.Item name="email" hasFeedback={true} showValidateSuccess={true}>
+						<Input type="email" name="email" placeholder="E-mail" />
+					</Form.Item>
+					<Form.Item
+						name="password"
+						hasFeedback={true}
+						showValidateSuccess={true}
+					>
+						<Input.Password
+							type="password"
+							name="password"
+							placeholder="Пароль"
+							maxLength={20}
+						/>
+					</Form.Item>
+				</Form>
+			)}
+		</Formik>
 	);
 };
 

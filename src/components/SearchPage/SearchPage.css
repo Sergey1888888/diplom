@@ -1,0 +1,12 @@
+.searchPage {
+    position: absolute;
+    top: 90px;
+    right: 0px;
+    width: 69vw;
+    height: calc(100vh - 90px);
+}
+
+.map {
+    width: 100%;
+    height: 100%;
+}

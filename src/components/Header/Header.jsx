@@ -1,23 +1,21 @@
-import { Button } from "antd";
 import React from "react";
+import { Button } from "antd";
 import { Link, useLocation } from "react-router-dom";
+import Logo from "../Common/Logo/Logo";
 import cn from "classnames";
 import "./Header.css";
+import { useDispatch } from "react-redux";
+import { Logout } from "../../redux/actions";
 
-const HomePageHeader = ({ onLoginFormClicked, profile }) => {
+const HomePageHeader = ({ onLogoutClick, openModal, profile }) => {
 	return (
 		<>
 			<div className="logoLoginWrapper">
 				<Link to="/" className="logo">
-					Volgograd realty
+					<Logo />
 				</Link>
 				{!profile ? (
-					<Button
-						onClick={onLoginFormClicked}
-						className="login"
-						type="default"
-						ghost
-					>
+					<Button onClick={openModal} className="login" type="default" ghost>
 						Вход
 					</Button>
 				) : (
@@ -31,7 +29,12 @@ const HomePageHeader = ({ onLoginFormClicked, profile }) => {
 			</div>
 			<div className={cn("logoutSearchWrapper", { logged: !profile })}>
 				{profile && (
-					<Button className="logout" type="default" danger>
+					<Button
+						className="logout"
+						type="default"
+						danger
+						onClick={() => onLogoutClick()}
+					>
 						Выйти
 					</Button>
 				)}
@@ -45,12 +48,12 @@ const HomePageHeader = ({ onLoginFormClicked, profile }) => {
 	);
 };
 
-const SearchPageHeader = ({ onLoginFormClicked, profile }) => {
+const SearchPageHeader = ({ onLogoutClick, openModal, profile }) => {
 	return (
 		<>
 			<div className="logoLoginWrapperSearch">
 				<Link to="/" className="logoSearch">
-					Volgograd realty
+					<Logo />
 				</Link>
 				{profile && (
 					<Link to="/profile" className="authName authNameSearch">
@@ -63,12 +66,7 @@ const SearchPageHeader = ({ onLoginFormClicked, profile }) => {
 			</div>
 			<div className={cn("salesLogoutWrapper", { logged: !profile })}>
 				{!profile ? (
-					<Button
-						onClick={onLoginFormClicked}
-						className="login"
-						type="default"
-						ghost
-					>
+					<Button onClick={openModal} className="login" type="default" ghost>
 						Вход
 					</Button>
 				) : (
@@ -76,28 +74,38 @@ const SearchPageHeader = ({ onLoginFormClicked, profile }) => {
 						<Button className="mySales" type="link">
 							Мои продажи
 						</Button>
-						<Button className="logout" type="default" danger>
+						<Button
+							className="logout"
+							type="default"
+							danger
+							onClick={() => onLogoutClick()}
+						>
 							Выйти
 						</Button>
 					</>
 				)}
 			</div>
-			{/* TODO добавить кнопку входа */}
 		</>
 	);
 };
-const Header = ({ onLoginFormClicked, profile }) => {
+const Header = ({ openModal, profile }) => {
 	const isSearchPage = useLocation().pathname === "/search";
+	const dispatch = useDispatch();
+	const onLogoutClick = () => {
+		dispatch(Logout());
+	};
 	return (
 		<div className={cn("header", { search: isSearchPage })}>
 			{isSearchPage ? (
 				<SearchPageHeader
-					onLoginFormClicked={onLoginFormClicked}
+					onLogoutClick={onLogoutClick}
+					openModal={openModal}
 					profile={profile}
 				/>
 			) : (
 				<HomePageHeader
-					onLoginFormClicked={onLoginFormClicked}
+					onLogoutClick={onLogoutClick}
+					openModal={openModal}
 					profile={profile}
 				/>
 			)}

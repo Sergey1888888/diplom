@@ -1,0 +1,30 @@
+.lotBox {
+	width: 280px;
+	height: 267px;
+	display: flex;
+    flex-direction: column;
+    padding: 20px;
+	background: #e8e8e8;
+    border-radius: 28px;
+    cursor: pointer;
+}
+
+.lotWrap {
+	width: 240px;
+    height: 227px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.lotImg {
+    width: 240px;
+    height: 164px;
+}
+
+.lot-item {
+	width: 240px;
+    height: 28px;
+    text-align: center;
+}

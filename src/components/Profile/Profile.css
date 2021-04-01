@@ -6,3 +6,42 @@
 	justify-content: center;
 	color: rgba(0, 0, 0, 0.7);
 }
+
+.pp {
+	margin-bottom: 30px !important;
+	height: 50px;
+}
+
+.dataContainer {
+	width: 960px;
+	height: 218px;
+	margin-bottom: 111px;
+}
+
+.dataAvatarWrapper {
+	display: flex;
+	justify-content: space-between;
+	width: 680px;
+	height: 181px;
+}
+
+.dataFlex {
+	display: flex;
+	justify-content: space-between;
+}
+
+.data {
+	width: 480px;
+	height: 181px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.avatarChangeBtn {
+	width: 180px;
+	height: 37px;
+	display: flex;
+	justify-content: center;
+	align-items: flex-end;
+}

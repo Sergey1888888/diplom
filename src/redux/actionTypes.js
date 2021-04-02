@@ -1,3 +1,7 @@
 export const SET_PROFILE = "SET_PROFILE";
 export const DELETE_PROFILE = "DELETE_PROFILE";
 export const INITIALIZED_SUCCESS = "INITIALIZED_SUCCESS";
+export const SET_IS_AUTH = "SET_IS_AUTH";
+export const DELETE_IS_AUTH = "DELETE_IS_AUTH";
+export const SET_USER_ID = "SET_USER_ID";
+export const DELETE_USER_ID = "DELETE_USER_ID";

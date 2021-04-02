@@ -1,21 +1,18 @@
 import React from "react";
 import { Upload, message } from "antd";
 import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
-
-function getBase64(img, callback) {
-	const reader = new FileReader();
-	reader.addEventListener("load", () => callback(reader.result));
-	reader.readAsDataURL(img);
-}
+import { connect } from "react-redux";
+import { token } from "./../../api/api";
+import { getProfile } from "./../../redux/actions";
 
 function beforeUpload(file) {
 	const isJpgOrPng = file.type === "image/jpeg" || file.type === "image/png";
 	if (!isJpgOrPng) {
-		message.error("You can only upload JPG/PNG file!");
+		message.error("Вы можете загружать только JPG и PNG файлы!");
 	}
 	const isLt2M = file.size / 1024 / 1024 < 2;
 	if (!isLt2M) {
-		message.error("Image must smaller than 2MB!");
+		message.error("Изображение должно быть меньше 2 МБ!");
 	}
 	return isJpgOrPng && isLt2M;
 }
@@ -31,18 +28,14 @@ class Avatar extends React.Component {
 			return;
 		}
 		if (info.file.status === "done") {
-			// Get this url from response in real world.
-			getBase64(info.file.originFileObj, (imageUrl) =>
-				this.setState({
-					imageUrl,
-					loading: false,
-				})
-			);
+			this.props.getProfile(this.props.userId).then(() => {
+				this.setState({ loading: false });
+			});
 		}
 	};
 
 	render() {
-		const { loading, imageUrl } = this.state;
+		const { loading } = this.state;
 		const uploadButton = (
 			<div>
 				{loading ? <LoadingOutlined /> : <PlusOutlined />}
@@ -55,12 +48,22 @@ class Avatar extends React.Component {
 				listType="picture-card"
 				className="avatar-uploader"
 				showUploadList={false}
-				action="https://nestjs-test-api.herokuapp.com/users/upload/6064be9086aa7d0021b43354"
+				action={`https://nestjs-test-api.herokuapp.com/users/upload/${this.props.userId}`}
 				beforeUpload={beforeUpload}
 				onChange={this.handleChange}
+				method="PUT"
+				headers={{ Authorization: `Bearer ${token}` }}
 			>
-				{imageUrl ? (
-					<img src={imageUrl} alt="avatar" style={{ width: "100%" }} />
+				{this.props.avatar ? (
+					loading ? (
+						<LoadingOutlined />
+					) : (
+						<img
+							src={this.props.avatar}
+							alt="avatar"
+							style={{ width: "100%", height: "100%", objectFit: "contain" }}
+						/>
+					)
 				) : (
 					uploadButton
 				)}
@@ -69,4 +72,11 @@ class Avatar extends React.Component {
 	}
 }
 
-export default Avatar;
+const mapStateToProps = (state) => {
+	return {
+		userId: state.auth.userId,
+		avatar: state.users.profile?.avatar,
+	};
+};
+
+export default connect(mapStateToProps, { getProfile })(Avatar);

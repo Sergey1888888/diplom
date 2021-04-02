@@ -1,6 +1,6 @@
 import * as axios from "axios";
 
-let token = localStorage.getItem("token");
+export let token = localStorage.getItem("token");
 let instance = axios.create({
 	baseURL: "https://nestjs-test-api.herokuapp.com/",
 	headers: {
@@ -26,6 +26,28 @@ export const authAPI = {
 	Login(email, password) {
 		return instance
 			.post("auth/login", { email, password })
+			.then((response) => response.data);
+	},
+	Registration(profileData) {
+		return instance
+			.post("users", profileData)
+			.then((response) => response.data);
+	},
+};
+
+export const usersAPI = {
+	getProfile(id) {
+		return instance.get(`users/${id}`).then((response) => response.data);
+	},
+	updateAvatar(file, id) {
+		const formData = new FormData();
+		formData.append("avatar", file);
+		return instance
+			.put(`users/upload/${id}`, formData, {
+				headers: {
+					"Content-Type": "multipart/form-data",
+				},
+			})
 			.then((response) => response.data);
 	},
 };

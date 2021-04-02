@@ -5,8 +5,8 @@ import * as Yup from "yup";
 import { useSelector } from "react-redux";
 
 const Login = ({ closeModal, onLoginButtonClicked }) => {
-	const profile = useSelector((state) => state.auth.profile);
-	if (profile != null) {
+	const isAuth = useSelector((state) => state.auth.isAuth);
+	if (isAuth) {
 		closeModal();
 	}
 	return (
@@ -53,4 +53,4 @@ const Login = ({ closeModal, onLoginButtonClicked }) => {
 	);
 };
 
-export default Login;
+export default React.memo(Login);

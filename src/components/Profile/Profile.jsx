@@ -1,14 +1,13 @@
-import React, { useState } from "react";
+import React from "react";
 import { Button } from "antd";
 import { useSelector } from "react-redux";
 import EditButton from "../Common/EditButton/EditButton";
-import defaultAvatar from "../../images/defaultAvatar.png";
 import "./Profile.css";
 import Lot from "../Lot/Lot";
+import UploadAvatar from "../UploadAvatar/UploadAvatar";
 
 const Profile = () => {
-	const [isHovered, setIsHovered] = useState(false)
-	const profile = useSelector((state) => state.auth.profile);
+	const profile = useSelector((state) => state.users.profile);
 	return (
 		<>
 			<div className="mainTitle pp">
@@ -17,11 +16,7 @@ const Profile = () => {
 			<div className="dataContainer">
 				<div className="dataFlex">
 					<div className="dataAvatarWrapper">
-						<img
-							src={profile?.avatar ? profile.avatar : defaultAvatar}
-							alt="Аватар"
-							className="noselect"
-						/>
+						<UploadAvatar />
 						<div className="data">
 							{profile && (
 								<div className="data-item fw300 fs24">

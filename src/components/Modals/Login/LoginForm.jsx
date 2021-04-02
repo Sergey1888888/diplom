@@ -1,19 +1,30 @@
-import React from "react";
+import React, { useCallback } from "react";
 import "./Login.css";
-import Registration from "./Registration";
 import Login from "./Login";
+import Registration from "./Registration";
 import { useDispatch } from "react-redux";
-import { Login as LoginA } from "../../../redux/actions";
+import {
+	Login as LoginA,
+	Registration as RegistrationA,
+} from "../../../redux/actions";
 
 const LoginForm = ({ isReg, closeModal }) => {
 	const dispatch = useDispatch();
-	const onLoginButtonClicked = (email, password) => {
-		dispatch(LoginA(email, password));
-	};
+	const onLoginButtonClicked = useCallback(
+		(email, password) => dispatch(LoginA(email, password)),
+		[dispatch]
+	);
+	const onRegistrationButtonClicked = useCallback(
+		(profileData) => dispatch(RegistrationA(profileData)),
+		[dispatch]
+	);
 	return (
 		<>
 			{isReg ? (
-				<Registration />
+				<Registration
+					onRegistrationButtonClicked={onRegistrationButtonClicked}
+					closeModal={closeModal}
+				/>
 			) : (
 				<Login
 					closeModal={closeModal}

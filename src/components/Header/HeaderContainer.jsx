@@ -8,7 +8,7 @@ const HeaderContainer = () => {
 	const [showModal, setShowModal] = useState(false);
 	const [isReg, setIsReg] = useState(false);
 	const clearFocusBtnRef = useRef();
-	const profile = useSelector((state) => state.auth.profile);
+	const profile = useSelector((state) => state.users.profile);
 	const openModal = () => {
 		setShowModal(true);
 	};
@@ -34,7 +34,7 @@ const HeaderContainer = () => {
 						{isReg ? "Вход" : "Регистрация"}
 					</Button>,
 					<Button
-						form="loginForm"
+						form={isReg ? "regForm" : "loginForm"}
 						key="submit"
 						htmlType="submit"
 						type="primary"

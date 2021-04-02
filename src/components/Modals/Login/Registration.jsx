@@ -3,7 +3,7 @@ import { Input, Form } from "formik-antd";
 import { Formik } from "formik";
 import * as Yup from "yup";
 
-const Registration = () => {
+const Registration = ({ onRegistrationButtonClicked, closeModal }) => {
 	return (
 		<Formik
 			initialValues={{
@@ -45,14 +45,12 @@ const Registration = () => {
 					.required("Обязательное поле"),
 			})}
 			onSubmit={(values, { setSubmitting }) => {
-				setTimeout(() => {
-					alert(JSON.stringify(values, null, 2));
-					setSubmitting(false);
-				}, 400);
+				onRegistrationButtonClicked(values);
+				setSubmitting(false);
 			}}
 		>
 			{({ isSubmitting }) => (
-				<Form id="loginForm">
+				<Form id="regForm">
 					<Form.Item
 						name="surname"
 						hasFeedback={true}

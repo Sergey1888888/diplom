@@ -45,3 +45,12 @@
 	justify-content: center;
 	align-items: flex-end;
 }
+
+.avatar-uploader > .ant-upload {
+	width: 250px;
+	height: 185px;
+}
+
+.ant-upload-picture-card-wrapper {
+	width: auto;
+}

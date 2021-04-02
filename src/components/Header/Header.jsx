@@ -54,14 +54,6 @@ const SearchPageHeader = ({ onLogoutClick, openModal, profile }) => {
 				<Link to="/" className="logoSearch">
 					<Logo />
 				</Link>
-				{profile && (
-					<Link to="/profile" className="authName authNameSearch">
-						<div style={{ color: "rgba(0, 0, 0, 0.7)", paddingRight: "0.5em" }}>
-							Здравствуйте,
-						</div>
-						{profile.surname} {profile.name}!
-					</Link>
-				)}
 			</div>
 			<div className={cn("salesLogoutWrapper", { logged: !profile })}>
 				{!profile ? (
@@ -73,6 +65,11 @@ const SearchPageHeader = ({ onLogoutClick, openModal, profile }) => {
 						<Button className="mySales" type="link">
 							Мои продажи
 						</Button>
+						<Link to="/profile" className="authName">
+							<Button className="logout" type="default">
+								Профиль
+							</Button>
+						</Link>
 						<Button
 							className="logout"
 							type="default"

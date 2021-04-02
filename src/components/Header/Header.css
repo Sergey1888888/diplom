@@ -56,7 +56,7 @@
     height: 50px;
     font-family: Roboto;
     font-style: normal;
-    font-weight: bold;
+    font-weight: 300;
     font-size: 16px;
     line-height: 28px;
     display: flex;
@@ -64,6 +64,7 @@
     justify-content: center;
     letter-spacing: 0.05em;
     color: rgba(0, 0, 0, 0.7);
+    margin-right: 20px;
 }
 
 .logout {
@@ -78,6 +79,7 @@
     align-items: center;
     text-align: center;
     letter-spacing: 0.05em;
+    margin-right: 20px;
 }
 
 .headerBtn {
@@ -86,8 +88,8 @@
     border-radius: 8px;
     font-family: Roboto;
     font-style: normal;
-    font-weight: bold;
-    font-size: 15px;
+    font-weight: 300;
+    font-size: 16px;
     line-height: 28px;
     text-align: center;
     letter-spacing: 0.05em;
@@ -96,7 +98,6 @@
 }
 
 .logoutSearchWrapper {
-    width: 180px;
     height: 50px;
     display: flex;
     justify-content: space-between;
@@ -114,7 +115,7 @@
     height: 50px;
     font-family: Roboto;
     font-style: normal;
-    font-weight: bold;
+    font-weight: 300;
     font-size: 16px;
     line-height: 28px;
     display: flex;

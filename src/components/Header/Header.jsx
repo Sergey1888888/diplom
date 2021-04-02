@@ -14,28 +14,27 @@ const HomePageHeader = ({ onLogoutClick, openModal, profile }) => {
 				<Link to="/" className="logo">
 					<Logo />
 				</Link>
-				{!profile ? (
-					<Button onClick={openModal} className="login" type="default" ghost>
-						Вход
-					</Button>
-				) : (
-					<Link to="/profile" className="authName">
-						<div style={{ color: "rgba(0, 0, 0, 0.7)", paddingRight: "0.5em" }}>
-							Здравствуйте,
-						</div>
-						{profile.surname} {profile.name}!
-					</Link>
-				)}
 			</div>
 			<div className={cn("logoutSearchWrapper", { logged: !profile })}>
-				{profile && (
-					<Button
-						className="logout"
-						type="default"
-						danger
-						onClick={() => onLogoutClick()}
-					>
-						Выйти
+				{profile ? (
+					<>
+						<Link to="/profile" className="authName">
+							<Button className="logout" type="default">
+								Профиль
+							</Button>
+						</Link>
+						<Button
+							className="logout"
+							type="default"
+							danger
+							onClick={() => onLogoutClick()}
+						>
+							Выйти
+						</Button>
+					</>
+				) : (
+					<Button onClick={openModal} className="login" type="default" ghost>
+						Вход
 					</Button>
 				)}
 				<Link to="/search">

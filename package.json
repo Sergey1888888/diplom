@@ -18,7 +18,7 @@
     "rc-tween-one": "^2.7.3",
     "react": "^16.14.0",
     "react-dom": "^16.14.0",
-    "react-mapbox-gl": "^5.0.0",
+    "react-map-gl": "^6.1.11",
     "react-redux": "^7.2.1",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.3",

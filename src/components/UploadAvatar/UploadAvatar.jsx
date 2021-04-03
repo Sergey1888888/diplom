@@ -61,7 +61,7 @@ class Avatar extends React.Component {
 						<img
 							src={this.props.avatar}
 							alt="avatar"
-							style={{ width: "100%", height: "100%", objectFit: "contain" }}
+							style={{ width: "100%", height: "100%", objectFit: "fill" }}
 						/>
 					)
 				) : (

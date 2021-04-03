@@ -51,6 +51,13 @@ class VirtualizedExample extends React.Component {
 			// 1 means loading
 			this.loadedRowsMap[i] = 1;
 		}
+		if (data.length > 19) {
+			message.warning("Virtualized List loaded all");
+			this.setState({
+				loading: false,
+			});
+			return;
+		}
 		this.fetchData((res) => {
 			data = data.concat(res.results);
 			this.setState({
@@ -96,7 +103,7 @@ class VirtualizedExample extends React.Component {
 				onScroll={onChildScroll}
 				overscanRowCount={2}
 				rowCount={data.length}
-				rowHeight={73}
+				rowHeight={250}
 				rowRenderer={this.renderItem}
 				onRowsRendered={onRowsRendered}
 				scrollTop={scrollTop}
@@ -147,7 +154,11 @@ class VirtualizedExample extends React.Component {
 		);
 		return (
 			<List>
-				{data.length > 0 && <WindowScroller scrollElement={this.props.scrollElementRef.current}>{infiniteLoader}</WindowScroller>}
+				{data.length > 0 && (
+					<WindowScroller scrollElement={this.props.scrollElementRef.current}>
+						{infiniteLoader}
+					</WindowScroller>
+				)}
 				{this.state.loading && <Spin className="demo-loading" />}
 			</List>
 		);

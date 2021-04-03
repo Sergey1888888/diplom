@@ -14,3 +14,11 @@
     height: 100%;
     overflow-y: scroll;
 }
+
+.list::-webkit-scrollbar {
+    background-color: rgba(121, 146, 192, 0.1);
+}
+
+.list::-webkit-scrollbar-thumb {
+    background-color: rgba(59, 72, 129, 0.05);
+}

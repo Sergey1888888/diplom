@@ -12,7 +12,7 @@ const Map = () => {
 	return (
 		<MapGL
 			{...viewport}
-			width="100%"
+			width="60%"
 			height="100%"
 			mapStyle="mapbox://styles/follex/ckm6poqh3cjbd17o5gtpfc6u3"
 			onViewportChange={setViewport}

@@ -16,6 +16,8 @@ class VirtualizedExample extends React.Component {
 	state = {
 		data: [],
 		loading: false,
+		currentPage: 1,
+		total: 0,
 	};
 
 	loadedRowsMap = {};
@@ -23,14 +25,32 @@ class VirtualizedExample extends React.Component {
 	componentDidMount() {
 		this.fetchData((res) => {
 			this.setState({
-				data: res.results,
+				data: res,
+			});
+		}, this.state.currentPage);
+		this.fetchTotal((res) => {
+			this.setState({
+				total: res,
 			});
 		});
 	}
 
-	fetchData = (callback) => {
+	fetchTotal = (callback) => {
 		reqwest({
-			url: fakeDataUrl,
+			url: `https://nestjs-test-api.herokuapp.com/realty/total`,
+			type: "json",
+			method: "get",
+			contentType: "application/json",
+			success: (res) => {
+				callback(res);
+			},
+		});
+	};
+
+	fetchData = (callback, pageNumber) => {
+		console.log("FETCH: ", pageNumber);
+		reqwest({
+			url: `https://nestjs-test-api.herokuapp.com/realty?limit=5&page=${pageNumber}`,
 			type: "json",
 			method: "get",
 			contentType: "application/json",
@@ -41,9 +61,7 @@ class VirtualizedExample extends React.Component {
 	};
 
 	handleInfiniteOnLoad = ({ startIndex, stopIndex }) => {
-		console.log(startIndex, stopIndex);
 		let { data } = this.state;
-		console.log(data);
 		this.setState({
 			loading: true,
 		});
@@ -51,7 +69,7 @@ class VirtualizedExample extends React.Component {
 			// 1 means loading
 			this.loadedRowsMap[i] = 1;
 		}
-		if (data.length > 19) {
+		if (data.length > this.state.total) {
 			message.warning("Virtualized List loaded all");
 			this.setState({
 				loading: false,
@@ -59,12 +77,13 @@ class VirtualizedExample extends React.Component {
 			return;
 		}
 		this.fetchData((res) => {
-			data = data.concat(res.results);
+			data = data.concat(res);
 			this.setState({
 				data,
 				loading: false,
+				currentPage: this.state.currentPage + 1,
 			});
-		});
+		}, this.state.currentPage + 1);
 	};
 
 	isRowLoaded = ({ index }) => !!this.loadedRowsMap[index];
@@ -76,12 +95,16 @@ class VirtualizedExample extends React.Component {
 			<List.Item key={key} style={style}>
 				<List.Item.Meta
 					avatar={
-						<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
+						<img
+							alt="Realty"
+							src="https://st95.domofond.ru/image/1/HgTuBba2FuxaRqInUyAnXPmOsO1epFD9kK2w"
+							style={{ width: "400px", height: "195px", paddingLeft: "20px" }}
+						/>
 					}
-					title={<a href="https://ant.design">{item.name.last}</a>}
-					description={item.email}
+					title={<div>рейтинг</div>}
+					description={<div>инфа о недвижимости</div>}
 				/>
-				<div>Content</div>
+				<div>еще че нить</div>
 			</List.Item>
 		);
 	};

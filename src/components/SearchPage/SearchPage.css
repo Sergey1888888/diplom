@@ -12,7 +12,9 @@
 .list {
     width: 40%;
     height: 100%;
-    overflow-y: scroll;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
 }
 
 .list::-webkit-scrollbar {
@@ -20,5 +22,5 @@
 }
 
 .list::-webkit-scrollbar-thumb {
-    background-color: rgba(59, 72, 129, 0.05);
+    background-color: rgba(0, 0, 0, 0.05);
 }

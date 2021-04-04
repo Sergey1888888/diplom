@@ -3,11 +3,14 @@ import {
 	DELETE_PROFILE,
 	DELETE_USER_ID,
 	INITIALIZED_SUCCESS,
+	SET_CURRENT_PAGE,
+	SET_DATA,
 	SET_IS_AUTH,
 	SET_PROFILE,
+	SET_TOTAL,
 	SET_USER_ID,
 } from "./actionTypes";
-import { authAPI, setToken, usersAPI } from "./../api/api";
+import { authAPI, realtyAPI, setToken, usersAPI } from "./../api/api";
 import { message, notification } from "antd";
 
 // users-reducer
@@ -90,4 +93,32 @@ export const initializeApp = () => (dispatch) => {
 	promise.then((data) => {
 		dispatch(initializedSuccess());
 	});
+};
+
+// realty-reducer
+export const setCurrentPage = (payload) => ({
+	type: SET_CURRENT_PAGE,
+	payload,
+});
+export const setTotal = (payload) => ({ type: SET_TOTAL, payload });
+export const setData = (payload) => ({ type: SET_DATA, payload });
+
+export const getTotal = () => (dispatch) => {
+	return realtyAPI
+		.getTotal()
+		.then((data) => {
+			dispatch(setTotal(data));
+		})
+		.catch((error) => console.log(error));
+};
+
+export const getData = (currentPage, filters = {}, sorts = {}) => (
+	dispatch
+) => {
+	return realtyAPI
+		.paginate(currentPage, filters, sorts)
+		.then((data) => {
+			dispatch(setData(data));
+		})
+		.catch((error) => console.log(error));
 };

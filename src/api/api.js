@@ -51,3 +51,17 @@ export const usersAPI = {
 			.then((response) => response.data);
 	},
 };
+
+export const realtyAPI = {
+	getById(id) {
+		return instance.get(`realty/${id}`).then((response) => response.data);
+	},
+	paginate(currentPage, filters = {}, sorts = {}) {
+		return instance
+			.get(`realty?limit=5&page=${currentPage}&filter=${filters}&sort=${sorts}`)
+			.then((response) => response.data);
+	},
+	getTotal() {
+		return instance.get("realty/total").then((response) => response.data);
+	},
+};

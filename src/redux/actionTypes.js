@@ -5,3 +5,6 @@ export const SET_IS_AUTH = "SET_IS_AUTH";
 export const DELETE_IS_AUTH = "DELETE_IS_AUTH";
 export const SET_USER_ID = "SET_USER_ID";
 export const DELETE_USER_ID = "DELETE_USER_ID";
+export const SET_CURRENT_PAGE = "SET_CURRENT_PAGE";
+export const SET_DATA = "SET_DATA";
+export const SET_TOTAL = "SET_TOTAL";

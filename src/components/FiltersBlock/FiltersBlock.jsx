@@ -1,7 +1,14 @@
-import React from "react";
-import { Button } from "antd";
+import React, { useState } from "react";
+import { Button, Popover } from "antd";
+import Filters from "./Filters";
+import Sorts from "./Sorts";
 
 const FiltersBlock = () => {
+	const [showFilters, setShowFilters] = useState(false);
+	const [showSorts, setShowSorts] = useState(false);
+    console.log("Filters: ", showFilters)
+    console.log("Sorts: ", showSorts)
+    // все фльтры в редакс
 	return (
 		<div
 			style={{
@@ -15,8 +22,22 @@ const FiltersBlock = () => {
 				zIndex: "100",
 			}}
 		>
-			<Button type="text" style={{ width: "50%", height: "100%", textAlign: "center" }}>Фильтры</Button>
-			<Button type="text" style={{ width: "50%", height: "100%", textAlign: "center" }}>Сортировка</Button>
+			<Button
+				type="text"
+				style={{ width: "50%", height: "100%", textAlign: "center" }}
+				onClick={() => setShowFilters(!showFilters)}
+			>
+				Фильтры
+			</Button>
+			{showFilters && <Filters />}
+			<Button
+				type="text"
+				style={{ width: "50%", height: "100%", textAlign: "center" }}
+				onClick={() => setShowSorts(!showSorts)}
+			>
+				Сортировка
+			</Button>
+			{showSorts && <Sorts />}
 		</div>
 	);
 };

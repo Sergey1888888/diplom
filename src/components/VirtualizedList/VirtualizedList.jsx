@@ -2,65 +2,34 @@ import React from "react";
 import { List, message, Avatar, Spin } from "antd";
 import "./VirtualizedList.css";
 
-import reqwest from "reqwest";
-
 import WindowScroller from "react-virtualized/dist/commonjs/WindowScroller";
 import AutoSizer from "react-virtualized/dist/commonjs/AutoSizer";
 import VList from "react-virtualized/dist/commonjs/List";
 import InfiniteLoader from "react-virtualized/dist/commonjs/InfiniteLoader";
-
-const fakeDataUrl =
-	"https://randomuser.me/api/?results=5&inc=name,gender,email,nat&noinfo";
+import { connect } from "react-redux";
+import { getTotal, getData, setCurrentPage } from "./../../redux/actions";
 
 class VirtualizedExample extends React.Component {
 	state = {
-		data: [],
 		loading: false,
-		currentPage: 1,
-		total: 0,
 	};
 
 	loadedRowsMap = {};
 
 	componentDidMount() {
-		this.fetchData((res) => {
-			this.setState({
-				data: res,
-			});
-		}, this.state.currentPage);
-		this.fetchTotal((res) => {
-			this.setState({
-				total: res,
-			});
-		});
+		this.fetchData(this.props.currentPage);
+		this.fetchTotal();
 	}
 
-	fetchTotal = (callback) => {
-		reqwest({
-			url: `https://nestjs-test-api.herokuapp.com/realty/total`,
-			type: "json",
-			method: "get",
-			contentType: "application/json",
-			success: (res) => {
-				callback(res);
-			},
-		});
+	fetchTotal = () => {
+		this.props.getTotal();
 	};
 
-	fetchData = (callback, pageNumber) => {
-		reqwest({
-			url: `https://nestjs-test-api.herokuapp.com/realty?limit=5&page=${pageNumber}`,
-			type: "json",
-			method: "get",
-			contentType: "application/json",
-			success: (res) => {
-				callback(res);
-			},
-		});
+	fetchData = (pageNumber) => {
+		this.props.getData(pageNumber);
 	};
 
 	handleInfiniteOnLoad = ({ startIndex, stopIndex }) => {
-		let { data } = this.state;
 		this.setState({
 			loading: true,
 		});
@@ -68,27 +37,20 @@ class VirtualizedExample extends React.Component {
 			// 1 means loading
 			this.loadedRowsMap[i] = 1;
 		}
-		if (data.length > this.state.total) {
-			message.warning("Virtualized List loaded all");
+		if (this.props.data.length >= this.props.total) {
 			this.setState({
 				loading: false,
 			});
 			return;
 		}
-		this.fetchData((res) => {
-			data = data.concat(res);
-			this.setState({
-				data,
-				loading: false,
-				currentPage: this.state.currentPage + 1,
-			});
-		}, this.state.currentPage + 1);
+		this.fetchData(this.props.currentPage + 1);
+		this.props.setCurrentPage(this.props.currentPage + 1);
 	};
 
 	isRowLoaded = ({ index }) => !!this.loadedRowsMap[index];
 
 	renderItem = ({ index, key, style }) => {
-		const { data } = this.state;
+		const { data } = this.props;
 		const item = data[index];
 		return (
 			<List.Item key={key} style={style}>
@@ -109,7 +71,7 @@ class VirtualizedExample extends React.Component {
 	};
 
 	render() {
-		const { data } = this.state;
+		const { data } = this.props;
 		const vlist = ({
 			height,
 			isScrolling,
@@ -187,4 +149,14 @@ class VirtualizedExample extends React.Component {
 	}
 }
 
-export default VirtualizedExample;
+const mapStateToProps = (state) => {
+	return {
+		currentPage: state.realty.currentPage,
+		total: state.realty.total,
+		data: state.realty.data,
+	};
+};
+
+export default connect(mapStateToProps, { getTotal, getData, setCurrentPage })(
+	VirtualizedExample
+);

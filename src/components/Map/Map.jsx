@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import MapGL from "react-map-gl";
-
-const token = "pk.eyJ1IjoiZm9sbGV4IiwiYSI6ImNrZjN0MXBqYTA2YzAyem5vYWh0OXJ4eWcifQ.T10EKgjFamd6JnCRJr4_Ow"
+import "mapbox-gl/dist/mapbox-gl.css";
 
 const Map = () => {
 	const [viewport, setViewport] = useState({
@@ -18,7 +17,7 @@ const Map = () => {
 			height="100%"
 			mapStyle="mapbox://styles/follex/ckm6poqh3cjbd17o5gtpfc6u3"
 			onViewportChange={setViewport}
-			mapboxApiAccessToken={token}
+			mapboxApiAccessToken="pk.eyJ1IjoiZm9sbGV4IiwiYSI6ImNrZjN0MXBqYTA2YzAyem5vYWh0OXJ4eWcifQ.T10EKgjFamd6JnCRJr4_Ow"
 		/>
 	);
 };

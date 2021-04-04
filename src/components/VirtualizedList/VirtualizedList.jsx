@@ -48,7 +48,6 @@ class VirtualizedExample extends React.Component {
 	};
 
 	fetchData = (callback, pageNumber) => {
-		console.log("FETCH: ", pageNumber);
 		reqwest({
 			url: `https://nestjs-test-api.herokuapp.com/realty?limit=5&page=${pageNumber}`,
 			type: "json",

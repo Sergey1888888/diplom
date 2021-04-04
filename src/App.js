@@ -1,15 +1,17 @@
 import React from "react";
 import { Link, Route, Switch } from "react-router-dom";
 import { connect } from "react-redux";
+import { Result, Button } from "antd";
+import { LoadingOutlined } from "@ant-design/icons";
+import { initializeApp } from "./redux/actions";
 import "./App.less";
 import Main from "./components/Main/Main";
 import SearchPage from "./components/SearchPage/SearchPage";
 import HeaderContainer from "./components/Header/HeaderContainer";
 import Profile from "./components/Profile/Profile";
-import { initializeApp } from "./redux/actions";
-import { LoadingOutlined } from "@ant-design/icons";
-import { Result, Button } from "antd";
 import PrivateRoute from "./components/hoc/PrivateRoute/PrivateRoute";
+import RealtyPage from "./components/RealtyPage/RealtyPage";
+
 class App extends React.Component {
 	componentDidMount() {
 		this.props.initializeApp();
@@ -22,6 +24,10 @@ class App extends React.Component {
 					<Switch>
 						<Route exact path="/" render={() => <Main />} />
 						<Route exact path="/search" render={() => <SearchPage />} />
+						<Route
+							path="/realty/:id"
+							render={({ match }) => <RealtyPage match={match} />}
+						/>
 						<PrivateRoute exact path="/profile">
 							<Profile />
 						</PrivateRoute>

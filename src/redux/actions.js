@@ -1,12 +1,14 @@
 import {
 	DELETE_IS_AUTH,
 	DELETE_PROFILE,
+	DELETE_SELECTED_REALTY,
 	DELETE_USER_ID,
 	INITIALIZED_SUCCESS,
 	SET_CURRENT_PAGE,
 	SET_DATA,
 	SET_IS_AUTH,
 	SET_PROFILE,
+	SET_SELECTED_REALTY,
 	SET_TOTAL,
 	SET_USER_ID,
 } from "./actionTypes";
@@ -102,6 +104,20 @@ export const setCurrentPage = (payload) => ({
 });
 export const setTotal = (payload) => ({ type: SET_TOTAL, payload });
 export const setData = (payload) => ({ type: SET_DATA, payload });
+export const setSelectedRealty = (payload) => ({
+	type: SET_SELECTED_REALTY,
+	payload,
+});
+export const deleteSelectedRealty = () => ({ type: DELETE_SELECTED_REALTY });
+
+export const getRealtyById = (id) => (dispatch) => {
+	return realtyAPI
+		.getById(id)
+		.then((data) => {
+			dispatch(setSelectedRealty(data));
+		})
+		.catch((error) => console.log(error));
+};
 
 export const getTotal = () => (dispatch) => {
 	return realtyAPI

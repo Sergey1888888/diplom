@@ -8,6 +8,7 @@ import VList from "react-virtualized/dist/commonjs/List";
 import InfiniteLoader from "react-virtualized/dist/commonjs/InfiniteLoader";
 import { connect } from "react-redux";
 import { getTotal, getData, setCurrentPage } from "./../../redux/actions";
+import { Link } from "react-router-dom";
 
 class VirtualizedExample extends React.Component {
 	state = {
@@ -65,7 +66,7 @@ class VirtualizedExample extends React.Component {
 					title={<div>рейтинг</div>}
 					description={<div>инфа о недвижимости</div>}
 				/>
-				<div>еще че нить</div>
+				<Link to={`/realty/${item._id}`}>еще че нить</Link>
 			</List.Item>
 		);
 	};

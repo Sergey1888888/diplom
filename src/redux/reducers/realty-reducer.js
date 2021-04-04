@@ -1,9 +1,16 @@
-import { SET_CURRENT_PAGE, SET_DATA, SET_TOTAL } from "../actionTypes";
+import {
+	DELETE_SELECTED_REALTY,
+	SET_CURRENT_PAGE,
+	SET_DATA,
+	SET_SELECTED_REALTY,
+	SET_TOTAL,
+} from "../actionTypes";
 
 const initialState = {
 	total: 0,
 	currentPage: 1,
 	data: [],
+	selectedRealty: {},
 };
 
 const realtyReducer = (state = initialState, action) => {
@@ -14,6 +21,10 @@ const realtyReducer = (state = initialState, action) => {
 			return { ...state, total: action.payload };
 		case SET_DATA:
 			return { ...state, data: [].concat(state.data, action.payload) };
+		case SET_SELECTED_REALTY:
+			return { ...state, selectedRealty: action.payload };
+		case DELETE_SELECTED_REALTY:
+			return { ...state, selectedRealty: {} };
 		default:
 			return state;
 	}

@@ -111,9 +111,11 @@ class VirtualizedExample extends React.Component {
 						>
 							<div style={{ gridArea: "type" }}>{item.type}</div>
 							<div style={{ gridArea: "area" }}>{item.area} м²</div>
-							<div style={{ gridArea: "rooms" }}>
-								{item.rooms} {rooms}
-							</div>
+							{item.rooms && (
+								<div style={{ gridArea: "rooms" }}>
+									{item.rooms} {rooms}
+								</div>
+							)}
 							<div style={{ gridArea: "street" }}>
 								Улица {item.street}, дом {item.houseNumber}
 							</div>

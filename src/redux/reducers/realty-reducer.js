@@ -1,9 +1,12 @@
 import {
+	DELETE_IS_NOT_FOUND,
 	DELETE_SELECTED_REALTY,
 	SET_CURRENT_PAGE,
 	SET_DATA,
+	SET_IS_NOT_FOUND,
 	SET_SELECTED_REALTY,
 	SET_TOTAL,
+	SET_REALTY_IS_LOADING,
 } from "../actionTypes";
 
 const initialState = {
@@ -11,6 +14,8 @@ const initialState = {
 	currentPage: 1,
 	data: [],
 	selectedRealty: {},
+	isNotFound: false,
+	isLoading: false,
 };
 
 const realtyReducer = (state = initialState, action) => {
@@ -25,6 +30,12 @@ const realtyReducer = (state = initialState, action) => {
 			return { ...state, selectedRealty: action.payload };
 		case DELETE_SELECTED_REALTY:
 			return { ...state, selectedRealty: {} };
+		case SET_IS_NOT_FOUND:
+			return { ...state, isNotFound: true };
+		case DELETE_IS_NOT_FOUND:
+			return { ...state, isNotFound: false };
+		case SET_REALTY_IS_LOADING:
+			return { ...state, isLoading: action.payload };
 		default:
 			return state;
 	}

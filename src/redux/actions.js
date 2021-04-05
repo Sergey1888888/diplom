@@ -1,5 +1,6 @@
 import {
 	DELETE_IS_AUTH,
+	DELETE_IS_NOT_FOUND,
 	DELETE_PROFILE,
 	DELETE_SELECTED_REALTY,
 	DELETE_USER_ID,
@@ -7,10 +8,12 @@ import {
 	SET_CURRENT_PAGE,
 	SET_DATA,
 	SET_IS_AUTH,
+	SET_IS_NOT_FOUND,
 	SET_PROFILE,
 	SET_SELECTED_REALTY,
 	SET_TOTAL,
 	SET_USER_ID,
+	SET_REALTY_IS_LOADING,
 } from "./actionTypes";
 import { authAPI, realtyAPI, setToken, usersAPI } from "./../api/api";
 import { message, notification } from "antd";
@@ -109,14 +112,25 @@ export const setSelectedRealty = (payload) => ({
 	payload,
 });
 export const deleteSelectedRealty = () => ({ type: DELETE_SELECTED_REALTY });
+export const setIsNotFound = () => ({ type: SET_IS_NOT_FOUND });
+export const deleteIsNotFound = () => ({ type: DELETE_IS_NOT_FOUND });
+export const setIsLoading = (payload) => ({
+	type: SET_REALTY_IS_LOADING,
+	payload,
+});
 
 export const getRealtyById = (id) => (dispatch) => {
+	dispatch(setIsLoading(true));
 	return realtyAPI
 		.getById(id)
 		.then((data) => {
 			dispatch(setSelectedRealty(data));
+			dispatch(setIsLoading(false));
 		})
-		.catch((error) => console.log(error));
+		.catch(() => {
+			dispatch(setIsNotFound());
+			dispatch(setIsLoading(false));
+		});
 };
 
 export const getTotal = () => (dispatch) => {
@@ -131,10 +145,15 @@ export const getTotal = () => (dispatch) => {
 export const getData = (currentPage, filters = {}, sorts = {}) => (
 	dispatch
 ) => {
+	dispatch(setIsLoading(true));
 	return realtyAPI
 		.paginate(currentPage, filters, sorts)
 		.then((data) => {
 			dispatch(setData(data));
+			dispatch(setIsLoading(false));
 		})
-		.catch((error) => console.log(error));
+		.catch((error) => {
+			dispatch(setIsLoading(false));
+			console.log(error);
+		});
 };

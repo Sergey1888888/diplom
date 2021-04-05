@@ -1,9 +1,10 @@
 import React from "react";
 import { Upload, message } from "antd";
-import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
+import { PlusOutlined } from "@ant-design/icons";
 import { connect } from "react-redux";
 import { token } from "./../../api/api";
 import { getProfile } from "./../../redux/actions";
+import Preloader from "./../Common/Preloader/Preloader";
 
 function beforeUpload(file) {
 	const isJpgOrPng = file.type === "image/jpeg" || file.type === "image/png";
@@ -38,7 +39,7 @@ class Avatar extends React.Component {
 		const { loading } = this.state;
 		const uploadButton = (
 			<div>
-				{loading ? <LoadingOutlined /> : <PlusOutlined />}
+				{loading ? <Preloader /> : <PlusOutlined />}
 				<div style={{ marginTop: 8 }}>Upload</div>
 			</div>
 		);
@@ -56,7 +57,7 @@ class Avatar extends React.Component {
 			>
 				{this.props.avatar ? (
 					loading ? (
-						<LoadingOutlined />
+						<Preloader />
 					) : (
 						<img
 							src={this.props.avatar}

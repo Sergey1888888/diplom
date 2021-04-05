@@ -1,5 +1,5 @@
 import React from "react";
-import { List, message, Avatar, Spin } from "antd";
+import { List, Spin } from "antd";
 import "./VirtualizedList.css";
 
 import WindowScroller from "react-virtualized/dist/commonjs/WindowScroller";
@@ -9,6 +9,7 @@ import InfiniteLoader from "react-virtualized/dist/commonjs/InfiniteLoader";
 import { connect } from "react-redux";
 import { getTotal, getData, setCurrentPage } from "./../../redux/actions";
 import { Link } from "react-router-dom";
+import Preloader from "../Common/Preloader/Preloader";
 
 class VirtualizedExample extends React.Component {
 	state = {
@@ -31,17 +32,11 @@ class VirtualizedExample extends React.Component {
 	};
 
 	handleInfiniteOnLoad = ({ startIndex, stopIndex }) => {
-		this.setState({
-			loading: true,
-		});
 		for (let i = startIndex; i <= stopIndex; i++) {
 			// 1 means loading
 			this.loadedRowsMap[i] = 1;
 		}
 		if (this.props.data.length >= this.props.total) {
-			this.setState({
-				loading: false,
-			});
 			return;
 		}
 		this.fetchData(this.props.currentPage + 1);
@@ -144,7 +139,7 @@ class VirtualizedExample extends React.Component {
 						{infiniteLoader}
 					</WindowScroller>
 				)}
-				{this.state.loading && <Spin className="demo-loading" />}
+				{this.props.isLoading && <Preloader className="demo-loading" />}
 			</List>
 		);
 	}
@@ -155,9 +150,12 @@ const mapStateToProps = (state) => {
 		currentPage: state.realty.currentPage,
 		total: state.realty.total,
 		data: state.realty.data,
+		isLoading: state.realty.isLoading,
 	};
 };
 
-export default connect(mapStateToProps, { getTotal, getData, setCurrentPage })(
-	VirtualizedExample
-);
+export default connect(mapStateToProps, {
+	getTotal,
+	getData,
+	setCurrentPage,
+})(VirtualizedExample);

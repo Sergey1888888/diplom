@@ -2,7 +2,6 @@ import React from "react";
 import { Link, Route, Switch } from "react-router-dom";
 import { connect } from "react-redux";
 import { Result, Button } from "antd";
-import { LoadingOutlined } from "@ant-design/icons";
 import { initializeApp } from "./redux/actions";
 import "./App.less";
 import Main from "./components/Main/Main";
@@ -11,6 +10,7 @@ import HeaderContainer from "./components/Header/HeaderContainer";
 import Profile from "./components/Profile/Profile";
 import PrivateRoute from "./components/hoc/PrivateRoute/PrivateRoute";
 import RealtyPage from "./components/RealtyPage/RealtyPage";
+import Preloader from "./components/Common/Preloader/Preloader";
 
 class App extends React.Component {
 	componentDidMount() {
@@ -57,13 +57,7 @@ class App extends React.Component {
 					alignItems: "center",
 				}}
 			>
-				<h1>Загрузка</h1>
-				<LoadingOutlined
-					style={{
-						fontSize: "120px",
-						marginLeft: "60px",
-					}}
-				/>
+				<Preloader size="large" />
 			</div>
 		);
 	}

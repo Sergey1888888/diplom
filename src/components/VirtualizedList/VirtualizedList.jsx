@@ -1,5 +1,5 @@
 import React from "react";
-import { List, Spin } from "antd";
+import { List, Rate, Spin, Statistic, Tooltip } from "antd";
 import "./VirtualizedList.css";
 
 import WindowScroller from "react-virtualized/dist/commonjs/WindowScroller";
@@ -48,20 +48,90 @@ class VirtualizedExample extends React.Component {
 	renderItem = ({ index, key, style }) => {
 		const { data } = this.props;
 		const item = data[index];
+		const rating = Math.ceil(item.rating / 10) / 2;
+		let rooms = "";
+		if (item.rooms === 1) rooms = "комната";
+		else if (item.rooms < 5) rooms = "комнаты";
+		else if (item.rooms >= 5) rooms = "комнат";
 		return (
 			<List.Item key={key} style={style}>
 				<List.Item.Meta
 					avatar={
 						<img
 							alt="Realty"
-							src="https://st95.domofond.ru/image/1/HgTuBba2FuxaRqInUyAnXPmOsO1epFD9kK2w"
+							src={item.photos[0]}
 							style={{ width: "400px", height: "195px", paddingLeft: "20px" }}
 						/>
 					}
-					title={<div>рейтинг</div>}
-					description={<div>инфа о недвижимости</div>}
+					title={
+						<div style={{ display: "flex", flexDirection: "column" }}>
+							<div
+								style={{
+									display: "flex",
+									justifyContent: "flex-start",
+									alignItems: "center",
+								}}
+							>
+								<div style={{ fontSize: "24px", marginRight: "10px" }}>
+									Рейтинг
+								</div>
+								<Tooltip
+									title={<div>{`По мнению эксперта ${item.rating} / 100`}</div>}
+									placement="top"
+								>
+									<div>
+										<Rate
+											style={{ fontSize: "22px", lineHeight: "1" }}
+											disabled
+											allowHalf
+											defaultValue={rating}
+										/>
+									</div>
+								</Tooltip>
+							</div>
+							<div style={{ display: "flex" }}>
+								<Statistic value={item.price} />
+								<div style={{ fontSize: "24px", paddingLeft: "10px" }}>
+									рублей
+								</div>
+							</div>
+						</div>
+					}
+					description={
+						<div
+							style={{
+								display: "grid",
+								gridTemplateAreas: '"type area rooms" "street street floor"',
+								gridTemplateRows: "repeat(2, 1fr)",
+								gridTemplateColumns: "1fr 1fr 1fr",
+								width: "100%",
+								height: "117px",
+								paddingTop: "20px",
+							}}
+						>
+							<div style={{ gridArea: "type" }}>{item.type}</div>
+							<div style={{ gridArea: "area" }}>{item.area} м²</div>
+							<div style={{ gridArea: "rooms" }}>
+								{item.rooms} {rooms}
+							</div>
+							<div style={{ gridArea: "street" }}>
+								Улица {item.street}, дом {item.houseNumber}
+							</div>
+							<div style={{ gridArea: "floor" }}>{item.floor} этаж</div>
+						</div>
+					}
 				/>
-				<Link to={`/realty/${item._id}`}>еще че нить</Link>
+				<Link
+					style={{
+						position: "absolute",
+						bottom: "15px",
+						right: "20px",
+						lineHeight: "1",
+					}}
+					to={`/realty/${item._id}`}
+				>
+					Подробнее
+				</Link>
 			</List.Item>
 		);
 	};
@@ -83,7 +153,7 @@ class VirtualizedExample extends React.Component {
 				onScroll={onChildScroll}
 				overscanRowCount={2}
 				rowCount={data.length}
-				rowHeight={250}
+				rowHeight={235}
 				rowRenderer={this.renderItem}
 				onRowsRendered={onRowsRendered}
 				scrollTop={scrollTop}

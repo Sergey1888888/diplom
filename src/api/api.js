@@ -57,11 +57,23 @@ export const realtyAPI = {
 		return instance.get(`realty/${id}`).then((response) => response.data);
 	},
 	paginate(currentPage, filters = {}, sorts = {}) {
+		console.log(
+			"API",
+			`realty?limit=5&page=${currentPage}&filter=${JSON.stringify(
+				filters
+			)}&sort=${JSON.stringify(sorts)}`
+		);
 		return instance
-			.get(`realty?limit=5&page=${currentPage}&filter=${filters}&sort=${sorts}`)
+			.get(
+				`realty?limit=5&page=${currentPage}&filter=${JSON.stringify(
+					filters
+				)}&sort=${JSON.stringify(sorts)}`
+			)
 			.then((response) => response.data);
 	},
-	getTotal() {
-		return instance.get("realty/total").then((response) => response.data);
+	getTotal(filters = {}) {
+		return instance
+			.get(`realty/total?filter=${JSON.stringify(filters)}`)
+			.then((response) => response.data);
 	},
 };

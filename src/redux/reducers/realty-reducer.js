@@ -7,6 +7,8 @@ import {
 	SET_SELECTED_REALTY,
 	SET_TOTAL,
 	SET_REALTY_IS_LOADING,
+	UPDATE_FILTERS,
+	UPDATE_SORTS,
 } from "../actionTypes";
 
 const initialState = {
@@ -16,6 +18,15 @@ const initialState = {
 	selectedRealty: {},
 	isNotFound: false,
 	isLoading: false,
+	filters: {
+		minPrice: null,
+		maxPrice: null,
+		rooms: null,
+		area: null,
+		type: "Квартира",
+		district: null,
+	},
+	sorts: {},
 };
 
 const realtyReducer = (state = initialState, action) => {
@@ -36,6 +47,10 @@ const realtyReducer = (state = initialState, action) => {
 			return { ...state, isNotFound: false };
 		case SET_REALTY_IS_LOADING:
 			return { ...state, isLoading: action.payload };
+		case UPDATE_FILTERS:
+			return { ...state, filters: action.payload, data: [], currentPage: 1 };
+		case UPDATE_SORTS:
+			return { ...state, sorts: action.payload, data: [], currentPage: 1 };
 		default:
 			return state;
 	}

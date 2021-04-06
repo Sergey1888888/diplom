@@ -1,5 +1,5 @@
-import React from "react";
-import { List, Rate, Spin, Statistic, Tooltip } from "antd";
+import React, { createRef } from "react";
+import { List, Rate, Statistic, Tooltip } from "antd";
 import "./VirtualizedList.css";
 
 import WindowScroller from "react-virtualized/dist/commonjs/WindowScroller";
@@ -11,16 +11,34 @@ import { getTotal, getData, setCurrentPage } from "./../../redux/actions";
 import { Link } from "react-router-dom";
 import Preloader from "../Common/Preloader/Preloader";
 
+function shallowEqual(object1, object2) {
+	const keys1 = Object.keys(object1);
+	const keys2 = Object.keys(object2);
+	if (keys1.length !== keys2.length) {
+		return false;
+	}
+	for (let key of keys1) {
+		if (object1[key] !== object2[key]) {
+			return false;
+		}
+	}
+	return true;
+}
+
 class VirtualizedExample extends React.Component {
 	state = {
 		loading: false,
 	};
-
 	loadedRowsMap = {};
-
 	componentDidMount() {
 		this.fetchData(this.props.currentPage);
 		this.fetchTotal();
+	}
+
+	componentDidUpdate(prevProps) {
+		if (!shallowEqual(this.props.filters, prevProps.filters)) {
+			this.fetchData(this.props.currentPage);
+		}
 	}
 
 	fetchTotal = () => {
@@ -28,7 +46,7 @@ class VirtualizedExample extends React.Component {
 	};
 
 	fetchData = (pageNumber) => {
-		this.props.getData(pageNumber);
+		this.props.getData(pageNumber, this.props.filters);
 	};
 
 	handleInfiniteOnLoad = ({ startIndex, stopIndex }) => {
@@ -223,6 +241,7 @@ const mapStateToProps = (state) => {
 		total: state.realty.total,
 		data: state.realty.data,
 		isLoading: state.realty.isLoading,
+		filters: state.realty.filters,
 	};
 };
 

@@ -14,6 +14,8 @@ import {
 	SET_TOTAL,
 	SET_USER_ID,
 	SET_REALTY_IS_LOADING,
+	UPDATE_FILTERS,
+	UPDATE_SORTS,
 } from "./actionTypes";
 import { authAPI, realtyAPI, setToken, usersAPI } from "./../api/api";
 import { message, notification } from "antd";
@@ -118,6 +120,8 @@ export const setIsLoading = (payload) => ({
 	type: SET_REALTY_IS_LOADING,
 	payload,
 });
+export const updateFilters = (payload) => ({ type: UPDATE_FILTERS, payload });
+export const updateSorts = (payload) => ({ type: UPDATE_SORTS, payload });
 
 export const getRealtyById = (id) => (dispatch) => {
 	dispatch(setIsLoading(true));
@@ -133,9 +137,9 @@ export const getRealtyById = (id) => (dispatch) => {
 		});
 };
 
-export const getTotal = () => (dispatch) => {
+export const getTotal = (filters = {}) => (dispatch) => {
 	return realtyAPI
-		.getTotal()
+		.getTotal(filters)
 		.then((data) => {
 			dispatch(setTotal(data));
 		})
@@ -154,6 +158,7 @@ export const getData = (currentPage, filters = {}, sorts = {}) => (
 		})
 		.catch((error) => {
 			dispatch(setIsLoading(false));
-			console.log(error);
+			if (error.response.data.message === "minPrice must be less than maxPrice")
+				message.error("Минимальная цена должна быть больше максимальной!");
 		});
 };

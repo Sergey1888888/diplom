@@ -1,14 +1,15 @@
 import React, { useState } from "react";
-import { Button, Popover } from "antd";
+import { Button } from "antd";
+import Animate from "rc-animate";
 import Filters from "./Filters";
 import Sorts from "./Sorts";
 
 const FiltersBlock = () => {
 	const [showFilters, setShowFilters] = useState(false);
 	const [showSorts, setShowSorts] = useState(false);
-    console.log("Filters: ", showFilters)
-    console.log("Sorts: ", showSorts)
-    // все фльтры в редакс
+	console.log("Filters: ", showFilters);
+	console.log("Sorts: ", showSorts);
+	// все фльтры в редакс
 	return (
 		<div
 			style={{
@@ -29,7 +30,9 @@ const FiltersBlock = () => {
 			>
 				Фильтры
 			</Button>
-			{showFilters && <Filters />}
+			<Animate component="" transitionName="fade">
+				{showFilters ? <Filters setShowFilters={setShowFilters} /> : null}
+			</Animate>
 			<Button
 				type="text"
 				style={{ width: "50%", height: "100%", textAlign: "center" }}
@@ -37,7 +40,9 @@ const FiltersBlock = () => {
 			>
 				Сортировка
 			</Button>
-			{showSorts && <Sorts />}
+			<Animate component="" transitionName="fade">
+				{showSorts ? <Sorts /> : null}
+			</Animate>
 		</div>
 	);
 };

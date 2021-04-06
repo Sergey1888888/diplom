@@ -1,11 +1,20 @@
-import React from 'react'
+import React from "react";
 
 const Sorts = () => {
-    return (
-        <div style={{ position: "absolute", left: "50%", top: "50px", width: "50%", backgroundColor: "yellow" }}>
-            SORTS
-        </div>
-    )
-}
+	return (
+		<div
+			key="1"
+			style={{
+				position: "absolute",
+				left: "50%",
+				top: "50px",
+				width: "50%",
+				backgroundColor: "#fff",
+			}}
+		>
+			SORTS
+		</div>
+	);
+};
 
-export default Sorts
+export default Sorts;

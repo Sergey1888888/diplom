@@ -1,4 +1,4 @@
-import React, { createRef } from "react";
+import React from "react";
 import { List, Rate, Statistic, Tooltip } from "antd";
 import "./VirtualizedList.css";
 
@@ -7,7 +7,13 @@ import AutoSizer from "react-virtualized/dist/commonjs/AutoSizer";
 import VList from "react-virtualized/dist/commonjs/List";
 import InfiniteLoader from "react-virtualized/dist/commonjs/InfiniteLoader";
 import { connect } from "react-redux";
-import { getTotal, getData, setCurrentPage } from "./../../redux/actions";
+import {
+	getTotal,
+	getData,
+	setCurrentPage,
+	setData,
+	setTotal,
+} from "./../../redux/actions";
 import { Link } from "react-router-dom";
 import Preloader from "../Common/Preloader/Preloader";
 
@@ -31,18 +37,29 @@ class VirtualizedExample extends React.Component {
 	};
 	loadedRowsMap = {};
 	componentDidMount() {
-		this.fetchData(this.props.currentPage);
-		this.fetchTotal();
-	}
-
-	componentDidUpdate(prevProps) {
-		if (!shallowEqual(this.props.filters, prevProps.filters)) {
+		if (this.props.data.length <= this.props.total) {
 			this.fetchData(this.props.currentPage);
+			this.fetchTotal();
 		}
 	}
 
+	componentDidUpdate(prevProps) {
+		if (
+			!shallowEqual(this.props.filters, prevProps.filters) &&
+			this.props.data.length <= this.props.total
+		) {
+			this.fetchData(this.props.currentPage);
+			this.fetchTotal();
+		}
+	}
+
+	componentWillUnmount() {
+		this.props.setData([]);
+		this.props.setTotal(0);
+	}
+
 	fetchTotal = () => {
-		this.props.getTotal();
+		this.props.getTotal(this.props.filters);
 	};
 
 	fetchData = (pageNumber) => {
@@ -249,4 +266,6 @@ export default connect(mapStateToProps, {
 	getTotal,
 	getData,
 	setCurrentPage,
+	setTotal,
+	setData,
 })(VirtualizedExample);

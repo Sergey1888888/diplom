@@ -16,6 +16,7 @@ import {
 	SET_REALTY_IS_LOADING,
 	UPDATE_FILTERS,
 	UPDATE_SORTS,
+	SET_AUTH_IS_LOADING,
 } from "./actionTypes";
 import { authAPI, realtyAPI, setToken, usersAPI } from "./../api/api";
 import { message, notification } from "antd";
@@ -40,11 +41,17 @@ export const setIsAuth = () => ({ type: SET_IS_AUTH });
 export const deleteIsAuth = () => ({ type: DELETE_IS_AUTH });
 export const setUserId = (payload) => ({ type: SET_USER_ID, payload });
 export const deleteUserId = () => ({ type: DELETE_USER_ID });
+export const setAuthIsLoading = (payload) => ({
+	type: SET_AUTH_IS_LOADING,
+	payload,
+});
 
 export const getLogin = () => (dispatch) => {
+	dispatch(setAuthIsLoading(true));
 	return authAPI
 		.getLogin()
 		.then((data) => {
+			dispatch(setAuthIsLoading(false));
 			dispatch(setIsAuth());
 			dispatch(setUserId(data.userId));
 			dispatch(getProfile(data.userId));
@@ -59,6 +66,7 @@ export const getLogin = () => (dispatch) => {
 				});
 				localStorage.removeItem("token");
 			}
+			dispatch(setAuthIsLoading(false));
 		});
 };
 
@@ -82,14 +90,36 @@ export const Logout = () => (dispatch) => {
 };
 
 export const Registration = (profileData) => (dispatch) => {
-	return authAPI.Registration(profileData).then((data) => {
-		notification.success({
-			message: "Успешная регистрация",
-			description: "Вы можете зайти в аккаунт, нажав на кнопку Вход",
-			placement: "topRight",
-			duration: 3,
+	dispatch(setAuthIsLoading(true));
+	return authAPI
+		.Registration(profileData)
+		.then((data) => {
+			dispatch(setAuthIsLoading(false));
+			notification.success({
+				message: "Успешная регистрация",
+				description: "Вы можете зайти в аккаунт, нажав на кнопку Вход",
+				placement: "topRight",
+				duration: 3,
+			});
+		})
+		.catch((error) => {
+			if (error.response.status === 409) {
+				notification.error({
+					message: "Не удалось зарегистрироваться",
+					description: "Пользователь с такими данными уже зарегистрирован",
+					placement: "topRight",
+					duration: 3,
+				});
+			} else {
+				notification.error({
+					message: "Не удалось зарегистрироваться",
+					description: "Неизвестная ошибка",
+					placement: "topRight",
+					duration: 3,
+				});
+			}
+			dispatch(setAuthIsLoading(false));
 		});
-	});
 };
 
 // app-reducer

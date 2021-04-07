@@ -1,3 +1,8 @@
+.ant-btn > .ant-btn-loading-icon .anticon {
+    padding-right: 0px !important;
+    margin-right: 8px !important;
+}
+
 .header {
     display: flex;
     justify-content: space-between;

@@ -1,6 +1,7 @@
 import {
 	DELETE_IS_AUTH,
 	DELETE_USER_ID,
+	SET_AUTH_IS_LOADING,
 	SET_IS_AUTH,
 	SET_USER_ID,
 } from "../actionTypes";
@@ -8,6 +9,7 @@ import {
 const initialState = {
 	isAuth: false,
 	userId: null,
+	isLoading: false,
 };
 
 const authReducer = (state = initialState, action) => {
@@ -31,6 +33,11 @@ const authReducer = (state = initialState, action) => {
 			return {
 				...state,
 				userId: null,
+			};
+		case SET_AUTH_IS_LOADING:
+			return {
+				...state,
+				isLoading: action.payload,
 			};
 		default:
 			return state;

@@ -9,6 +9,7 @@ const HeaderContainer = () => {
 	const [isReg, setIsReg] = useState(false);
 	const clearFocusBtnRef = useRef();
 	const profile = useSelector((state) => state.users.profile);
+	const authIsLoading = useSelector((state) => state.auth.isLoading);
 	const openModal = () => {
 		setShowModal(true);
 	};
@@ -39,6 +40,7 @@ const HeaderContainer = () => {
 						htmlType="submit"
 						type="primary"
 						className="fw300"
+						loading={authIsLoading}
 					>
 						{isReg ? "Зарегистрироваться" : "Войти"}
 					</Button>,

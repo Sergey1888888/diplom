@@ -1,4 +1,4 @@
-import React from "react";
+import React, { createRef } from "react";
 import { List, Rate, Statistic, Tooltip } from "antd";
 import "./VirtualizedList.css";
 
@@ -13,6 +13,9 @@ import {
 	setCurrentPage,
 	setData,
 	setTotal,
+	getHasNextPage,
+	getCurrentPage,
+	getFilters,
 } from "./../../redux/actions";
 import { Link } from "react-router-dom";
 import Preloader from "../Common/Preloader/Preloader";
@@ -32,6 +35,10 @@ function shallowEqual(object1, object2) {
 }
 
 class VirtualizedExample extends React.Component {
+	constructor(props) {
+		super(props);
+		this.listRef = createRef();
+	}
 	state = {
 		loading: false,
 	};
@@ -67,15 +74,14 @@ class VirtualizedExample extends React.Component {
 	};
 
 	handleInfiniteOnLoad = ({ startIndex, stopIndex }) => {
-		for (let i = startIndex; i <= stopIndex; i++) {
-			// 1 means loading
-			this.loadedRowsMap[i] = 1;
-		}
-		if (this.props.data.length >= this.props.total) {
-			return;
-		}
-		this.fetchData(this.props.currentPage + 1);
-		this.props.setCurrentPage(this.props.currentPage + 1);
+		this.props.getHasNextPage().then((hasNextPage) => {
+			this.props.getCurrentPage().then((currentPage) => {
+				this.props.getFilters().then((filters) => {
+					if (hasNextPage && this.props.data.length < this.props.total)
+						return this.props.getData(currentPage, filters);
+				});
+			});
+		});
 	};
 
 	isRowLoaded = ({ index }) => !!this.loadedRowsMap[index];
@@ -188,13 +194,14 @@ class VirtualizedExample extends React.Component {
 				height={height}
 				isScrolling={isScrolling}
 				onScroll={onChildScroll}
-				overscanRowCount={2}
+				overscanCount={2}
 				rowCount={data.length}
 				rowHeight={235}
 				rowRenderer={this.renderItem}
 				onRowsRendered={onRowsRendered}
 				scrollTop={scrollTop}
 				width={width}
+				ref={this.listRef}
 			/>
 		);
 		const autoSize = ({
@@ -259,6 +266,7 @@ const mapStateToProps = (state) => {
 		data: state.realty.data,
 		isLoading: state.realty.isLoading,
 		filters: state.realty.filters,
+		hasNextPage: state.realty.hasNextPage,
 	};
 };
 
@@ -268,4 +276,7 @@ export default connect(mapStateToProps, {
 	setCurrentPage,
 	setTotal,
 	setData,
+	getHasNextPage,
+	getCurrentPage,
+	getFilters,
 })(VirtualizedExample);

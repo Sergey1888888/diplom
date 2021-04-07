@@ -1,34 +1,65 @@
 import React, { useEffect, useState } from "react";
 import { Button } from "antd";
-import { InputNumber, Form, Radio, Select } from "formik-antd";
+import { InputNumber, Input, Form, Radio, Select } from "formik-antd";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import { LineOutlined } from "@ant-design/icons";
 import { useDispatch, useSelector } from "react-redux";
 import { updateFilters } from "../../redux/actions";
 
+function shallowEqual(object1, object2) {
+	const keys1 = Object.keys(object1);
+	const keys2 = Object.keys(object2);
+	if (keys1.length !== keys2.length) {
+		return false;
+	}
+	for (let key of keys1) {
+		if (object1[key] !== object2[key]) {
+			return false;
+		}
+	}
+	return true;
+}
+
 const Filters = ({ setShowFilters }) => {
 	const dispatch = useDispatch();
 	const filters = useSelector((state) => state.realty.filters);
+	const [isChanged, setIsChanged] = useState(false);
 	const [minPrice, setMinPrice] = useState(null);
 	const [maxPrice, setMaxPrice] = useState(null);
 	const [rooms, setRooms] = useState(null);
 	const [area, setArea] = useState(null);
-	const [type, setType] = useState("Офис");
+	const [type, setType] = useState("Квартира");
 	const [district, setDistrict] = useState(null);
+	const [street, setStreet] = useState(null);
+	const [encumbranceType, setEncumbranceType] = useState(0);
+	const onEncumbranceTypeChange = (e) => {
+		setEncumbranceType(e.target.value);
+		setIsChanged(true);
+	};
+	const onStreetChange = (e) => {
+		setStreet(e.target.value);
+		setIsChanged(true);
+	};
 	const onTypeChange = (e) => {
 		setType(e.target.value);
+		setIsChanged(true);
 	};
 	const onDistrictChange = (value) => {
 		setDistrict(value);
+		setIsChanged(true);
 	};
 	useEffect(() => {
-		filters.minPrice && setMinPrice(filters.minPrice);
+		if (filters.minPrice || filters.minPrice === 0)
+			setMinPrice(filters.minPrice);
 		filters.maxPrice && setMaxPrice(filters.maxPrice);
-		filters.rooms && setRooms(filters.rooms);
-		filters.area && setArea(filters.area);
+		if (filters.rooms || filters.rooms === 0) setRooms(filters.rooms);
+		if (filters.area || filters.area === 0) setArea(filters.area);
 		filters.type && setType(filters.type);
 		filters.district && setDistrict(filters.district);
+		filters.street && setStreet(filters.street);
+		if (filters.encumbranceType || filters.encumbranceType === 0)
+			setEncumbranceType(filters.encumbranceType);
 	}, [filters]);
 	return (
 		<div
@@ -48,6 +79,8 @@ const Filters = ({ setShowFilters }) => {
 					area: null || filters.area,
 					type: "Квартира" && filters.type,
 					district: null || filters.district,
+					street: null || filters.street,
+					encumbranceType: null || filters.encumbranceType,
 				}}
 				validationSchema={Yup.object({
 					minPrice: Yup.string()
@@ -64,11 +97,22 @@ const Filters = ({ setShowFilters }) => {
 						.nullable(),
 					type: Yup.string(),
 					district: Yup.string().nullable(),
+					street: Yup.string().nullable(),
+					encumbranceType: Yup.number().nullable(),
 				})}
 				onSubmit={(values, { setSubmitting }) => {
-					console.log("VALUES", values);
+					let street = values.street;
+					if (street != null) {
+						if (street.length === 0 || street === undefined) {
+							values.street = null;
+						} else {
+							street = street[0].toUpperCase() + street.slice(1);
+							values.street = street;
+						}
+					}
 					dispatch(updateFilters(values));
 					setShowFilters(false);
+					setIsChanged(false);
 					setSubmitting(false);
 				}}
 			>
@@ -90,10 +134,12 @@ const Filters = ({ setShowFilters }) => {
 								<InputNumber
 									style={{ width: "140px" }}
 									name="minPrice"
-									min={0}
 									placeholder="Мин. стоимость"
 									value={minPrice}
-									onChange={setMinPrice}
+									onChange={(value) => {
+										setMinPrice(value);
+										setIsChanged(true);
+									}}
 									validate={(value) => {
 										let errorMessage;
 										if (value != null && maxPrice === null)
@@ -121,7 +167,10 @@ const Filters = ({ setShowFilters }) => {
 									min={0}
 									placeholder="Макс. стоимость"
 									value={maxPrice}
-									onChange={setMaxPrice}
+									onChange={(value) => {
+										setMaxPrice(value);
+										setIsChanged(true);
+									}}
 									validate={(value) => {
 										let errorMessage;
 										if (value != null && minPrice === null)
@@ -145,7 +194,10 @@ const Filters = ({ setShowFilters }) => {
 										max={10}
 										placeholder="Кол-во комнат"
 										value={rooms}
-										onChange={setRooms}
+										onChange={(value) => {
+											setRooms(value);
+											setIsChanged(true);
+										}}
 									/>
 								</Form.Item>
 							</div>
@@ -158,7 +210,10 @@ const Filters = ({ setShowFilters }) => {
 										min={0}
 										placeholder="Мин. площадь"
 										value={area}
-										onChange={setArea}
+										onChange={(value) => {
+											setArea(value);
+											setIsChanged(true);
+										}}
 									/>
 								</Form.Item>
 							</div>
@@ -200,6 +255,22 @@ const Filters = ({ setShowFilters }) => {
 								</Radio.Button>
 							</Radio.Group>
 						</Form.Item>
+						<Form.Item name="encumbranceType" hasFeedback={true}>
+							<Radio.Group
+								name="encumbranceType"
+								onChange={onEncumbranceTypeChange}
+								value={encumbranceType}
+								optionType="button"
+								buttonStyle="solid"
+								style={{
+									display: "flex",
+									justifyContent: "space-between",
+								}}
+							>
+								<Radio.Button value={0}>Продажа</Radio.Button>
+								<Radio.Button value={1}>Аренда</Radio.Button>
+							</Radio.Group>
+						</Form.Item>
 						<Form.Item name="district" hasFeedback={true}>
 							<Select
 								name="district"
@@ -225,7 +296,15 @@ const Filters = ({ setShowFilters }) => {
 								</Select.Option>
 							</Select>
 						</Form.Item>
-						<Button type="primary" htmlType="submit">
+						<Form.Item name="street" hasFeedback={true}>
+							<Input
+								name="street"
+								placeholder="Название улицы"
+								value={street}
+								onChange={onStreetChange}
+							/>
+						</Form.Item>
+						<Button type="primary" htmlType="submit" disabled={!isChanged}>
 							Применить
 						</Button>
 					</Form>

@@ -17,6 +17,7 @@ import {
 	UPDATE_FILTERS,
 	UPDATE_SORTS,
 	SET_AUTH_IS_LOADING,
+	SET_HAS_NEXT_PAGE,
 } from "./actionTypes";
 import { authAPI, realtyAPI, setToken, usersAPI } from "./../api/api";
 import { message, notification } from "antd";
@@ -152,6 +153,10 @@ export const setIsLoading = (payload) => ({
 });
 export const updateFilters = (payload) => ({ type: UPDATE_FILTERS, payload });
 export const updateSorts = (payload) => ({ type: UPDATE_SORTS, payload });
+export const setHasNextPage = (payload) => ({
+	type: SET_HAS_NEXT_PAGE,
+	payload,
+});
 
 export const getRealtyById = (id) => (dispatch) => {
 	dispatch(setIsLoading(true));
@@ -177,18 +182,40 @@ export const getTotal = (filters = {}) => (dispatch) => {
 };
 
 export const getData = (currentPage, filters = {}, sorts = {}) => (
-	dispatch
+	dispatch,
+	getState
 ) => {
 	dispatch(setIsLoading(true));
 	return realtyAPI
 		.paginate(currentPage, filters, sorts)
 		.then((data) => {
 			dispatch(setData(data));
+			dispatch(getTotal(filters));
+			const hasNextPage =
+				Math.ceil(getState().realty.total / 2) !== currentPage;
+			dispatch(setHasNextPage(hasNextPage));
+			if (hasNextPage) dispatch(setCurrentPage(currentPage + 1));
 			dispatch(setIsLoading(false));
 		})
 		.catch((error) => {
 			dispatch(setIsLoading(false));
-			if (error.response.data.message === "minPrice must be less than maxPrice")
+			if (
+				error?.response?.data?.message === "minPrice must be less than maxPrice"
+			)
 				message.error("Минимальная цена должна быть больше максимальной!");
 		});
+};
+
+export const getHasNextPage = () => async (dispatch, getState) => {
+	return (
+		Math.ceil(getState().realty.total / 2) !== getState().realty.currentPage
+	);
+};
+
+export const getCurrentPage = () => async (dispatch, getState) => {
+	return getState().realty.currentPage;
+};
+
+export const getFilters = () => async (dispatch, getState) => {
+	return getState().realty.filters;
 };

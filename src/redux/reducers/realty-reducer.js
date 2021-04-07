@@ -9,6 +9,7 @@ import {
 	SET_REALTY_IS_LOADING,
 	UPDATE_FILTERS,
 	UPDATE_SORTS,
+	SET_HAS_NEXT_PAGE,
 } from "../actionTypes";
 
 const initialState = {
@@ -25,8 +26,11 @@ const initialState = {
 		area: null,
 		type: "Квартира",
 		district: null,
+		street: null,
+		encumbranceType: 0,
 	},
 	sorts: {},
+	hasNextPage: false,
 };
 
 const realtyReducer = (state = initialState, action) => {
@@ -51,6 +55,8 @@ const realtyReducer = (state = initialState, action) => {
 			return { ...state, filters: action.payload, data: [], currentPage: 1 };
 		case UPDATE_SORTS:
 			return { ...state, sorts: action.payload, data: [], currentPage: 1 };
+		case SET_HAS_NEXT_PAGE:
+			return { ...state, hasNextPage: action.payload };
 		default:
 			return state;
 	}

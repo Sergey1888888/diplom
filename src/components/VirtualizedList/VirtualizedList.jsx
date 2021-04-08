@@ -102,6 +102,8 @@ class VirtualizedExample extends React.Component {
 							alt="Realty"
 							src={item.photos[0]}
 							style={{ width: "400px", height: "195px", paddingLeft: "20px" }}
+							className="noselect"
+							draggable="false"
 						/>
 					}
 					title={

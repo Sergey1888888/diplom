@@ -20,7 +20,6 @@ const Sorts = ({ setShowSorts }) => {
 
 	useEffect(() => {
 		sortsType && setType(sortsType);
-		console.log(sortsType);
 	}, [sortsType]);
 	return (
 		<div

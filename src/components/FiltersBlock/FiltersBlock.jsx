@@ -7,9 +7,6 @@ import Sorts from "./Sorts";
 const FiltersBlock = () => {
 	const [showFilters, setShowFilters] = useState(false);
 	const [showSorts, setShowSorts] = useState(false);
-	console.log("Filters: ", showFilters);
-	console.log("Sorts: ", showSorts);
-	// все фльтры в редакс
 	return (
 		<div
 			style={{

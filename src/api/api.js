@@ -57,12 +57,6 @@ export const realtyAPI = {
 		return instance.get(`realty/${id}`).then((response) => response.data);
 	},
 	paginate(currentPage, filters = {}, sorts = {}) {
-		console.log(
-			"API",
-			`realty?limit=2&page=${currentPage}&filter=${JSON.stringify(
-				filters
-			)}&sort=${JSON.stringify(sorts)}`
-		);
 		return instance
 			.get(
 				`realty?limit=2&page=${currentPage}&filter=${JSON.stringify(

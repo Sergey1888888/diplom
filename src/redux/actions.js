@@ -219,3 +219,7 @@ export const getCurrentPage = () => async (dispatch, getState) => {
 export const getFilters = () => async (dispatch, getState) => {
 	return getState().realty.filters;
 };
+
+export const getSorts = () => async (dispatch, getState) => {
+	return getState().realty.sorts;
+};

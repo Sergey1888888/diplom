@@ -29,7 +29,12 @@ const initialState = {
 		street: null,
 		encumbranceType: 0,
 	},
-	sorts: {},
+	sorts: {
+		price: 1,
+		rooms: null,
+		area: null,
+	},
+	sortsType: 1,
 	hasNextPage: false,
 };
 
@@ -54,7 +59,13 @@ const realtyReducer = (state = initialState, action) => {
 		case UPDATE_FILTERS:
 			return { ...state, filters: action.payload, data: [], currentPage: 1 };
 		case UPDATE_SORTS:
-			return { ...state, sorts: action.payload, data: [], currentPage: 1 };
+			return {
+				...state,
+				sorts: action.payload.sorts,
+				sortsType: action.payload.sortsType,
+				data: [],
+				currentPage: 1,
+			};
 		case SET_HAS_NEXT_PAGE:
 			return { ...state, hasNextPage: action.payload };
 		default:

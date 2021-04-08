@@ -16,6 +16,7 @@ import {
 	getHasNextPage,
 	getCurrentPage,
 	getFilters,
+	getSorts,
 } from "./../../redux/actions";
 import { Link } from "react-router-dom";
 import Preloader from "../Common/Preloader/Preloader";
@@ -52,7 +53,8 @@ class VirtualizedExample extends React.Component {
 
 	componentDidUpdate(prevProps) {
 		if (
-			!shallowEqual(this.props.filters, prevProps.filters) &&
+			(!shallowEqual(this.props.filters, prevProps.filters) ||
+				!shallowEqual(this.props.sorts, prevProps.sorts)) &&
 			this.props.data.length <= this.props.total
 		) {
 			this.fetchData(this.props.currentPage);
@@ -70,15 +72,17 @@ class VirtualizedExample extends React.Component {
 	};
 
 	fetchData = (pageNumber) => {
-		this.props.getData(pageNumber, this.props.filters);
+		this.props.getData(pageNumber, this.props.filters, this.props.sorts);
 	};
 
 	handleInfiniteOnLoad = ({ startIndex, stopIndex }) => {
 		this.props.getHasNextPage().then((hasNextPage) => {
 			this.props.getCurrentPage().then((currentPage) => {
 				this.props.getFilters().then((filters) => {
-					if (hasNextPage && this.props.data.length < this.props.total)
-						return this.props.getData(currentPage, filters);
+					this.props.getSorts().then((sorts) => {
+						if (hasNextPage && this.props.data.length < this.props.total)
+							return this.props.getData(currentPage, filters, sorts);
+					});
 				});
 			});
 		});
@@ -268,6 +272,7 @@ const mapStateToProps = (state) => {
 		data: state.realty.data,
 		isLoading: state.realty.isLoading,
 		filters: state.realty.filters,
+		sorts: state.realty.sorts,
 		hasNextPage: state.realty.hasNextPage,
 	};
 };
@@ -281,4 +286,5 @@ export default connect(mapStateToProps, {
 	getHasNextPage,
 	getCurrentPage,
 	getFilters,
+	getSorts,
 })(VirtualizedExample);

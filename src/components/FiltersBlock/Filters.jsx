@@ -7,20 +7,6 @@ import { LineOutlined } from "@ant-design/icons";
 import { useDispatch, useSelector } from "react-redux";
 import { updateFilters } from "../../redux/actions";
 
-function shallowEqual(object1, object2) {
-	const keys1 = Object.keys(object1);
-	const keys2 = Object.keys(object2);
-	if (keys1.length !== keys2.length) {
-		return false;
-	}
-	for (let key of keys1) {
-		if (object1[key] !== object2[key]) {
-			return false;
-		}
-	}
-	return true;
-}
-
 const Filters = ({ setShowFilters }) => {
 	const dispatch = useDispatch();
 	const filters = useSelector((state) => state.realty.filters);

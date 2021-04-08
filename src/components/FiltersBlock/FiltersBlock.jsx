@@ -41,7 +41,7 @@ const FiltersBlock = () => {
 				Сортировка
 			</Button>
 			<Animate component="" transitionName="fade">
-				{showSorts ? <Sorts /> : null}
+				{showSorts ? <Sorts setShowSorts={setShowSorts}/> : null}
 			</Animate>
 		</div>
 	);

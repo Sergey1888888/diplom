@@ -7,6 +7,44 @@ body {
 		sans-serif;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
+	overflow-x: hidden !important;
+}
+
+body::-webkit-scrollbar {
+    background-color: rgba(121, 146, 192, 0.1);
+}
+
+body::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.ant-carousel {
+	height: 100%;
+}
+
+.slick-list {
+	height: inherit;
+}
+
+.slick-track {
+	height: inherit;
+}
+
+.slick-slide {
+	height: inherit;
+}
+
+.slick-slide > div {
+	height: inherit;
+}
+
+.slick-slide > div > img {
+	height: inherit;
+	object-fit: contain;
+}
+
+.slick-dots-bottom > li > button {
+	background-color: rgb(66, 132, 255) !important;
 }
 
 code {
@@ -48,6 +86,11 @@ input {
 .fs15 {
 	font-size: 15px !important;
 	line-height: 28px !important;
+}
+
+.fs16 {
+	font-size: 16px !important;
+	line-height: 30px !important;
 }
 
 .fs24 {

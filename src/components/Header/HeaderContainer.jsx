@@ -49,7 +49,6 @@ const HeaderContainer = () => {
 				<LoginForm isReg={isReg} closeModal={closeModal} />
 			</Modal>
 			<Header openModal={openModal} profile={profile} />
-			<div className="line"></div>
 		</>
 	);
 };

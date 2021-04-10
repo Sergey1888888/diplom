@@ -3,12 +3,18 @@
     margin-right: 8px !important;
 }
 
+.ant-page-header {
+    width: inherit;
+    background-color: unset;
+}
+
 .header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     height: 90px;
     width: 980px;
+    z-index: 1000;
 }
 
 .logoLoginWrapper {
@@ -110,6 +116,9 @@
 }
 
 .search {
+    position: sticky;
+    top: 0px;
+    backdrop-filter: blur(12px);
     width: 100vw;
     display: flex;
     justify-content: space-between;

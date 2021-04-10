@@ -1,11 +1,12 @@
 import React from "react";
-import { Button } from "antd";
-import { Link, useLocation } from "react-router-dom";
+import { Button, PageHeader } from "antd";
+import { Link, useHistory, useLocation } from "react-router-dom";
 import Logo from "../Common/Logo/Logo";
 import cn from "classnames";
 import "./Header.css";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Logout } from "../../redux/actions";
+import Preloader from "../Common/Preloader/Preloader";
 
 const HomePageHeader = ({ onLogoutClick, openModal, profile }) => {
 	return (
@@ -84,26 +85,82 @@ const SearchPageHeader = ({ onLogoutClick, openModal, profile }) => {
 		</>
 	);
 };
+
+const RealtyPageHeader = () => {
+	const selectedRealty = useSelector((state) => state.realty.selectedRealty);
+	let normType = "";
+	let normDistrict = "";
+	if (selectedRealty.type) {
+		normType =
+			selectedRealty.type[0].toLowerCase() + selectedRealty.type.slice(1);
+	}
+	if (selectedRealty.district) {
+		normDistrict =
+			selectedRealty.district.slice(0, selectedRealty.district.length - 2) +
+			"ом";
+	}
+	return (
+		<>
+			<PageHeader
+				ghost={false}
+				onBack={() => window.history.back()}
+				title={
+					selectedRealty.type ? (
+						<div>
+							{selectedRealty.rooms
+								? `${selectedRealty.rooms} комнатная ${normType} в ${normDistrict} районе`
+								: `${selectedRealty.type} в ${normDistrict} районе`}
+						</div>
+					) : (
+						<Preloader />
+					)
+				}
+				extra={[
+					<Button key="1" type="primary">
+						Связаться
+					</Button>,
+				]}
+			/>
+		</>
+	);
+};
+
 const Header = ({ openModal, profile }) => {
 	const isSearchPage = useLocation().pathname === "/search";
+	const isRealtyPage = useLocation().pathname.startsWith("/realty");
 	const dispatch = useDispatch();
 	const onLogoutClick = () => {
 		dispatch(Logout());
 	};
 	return (
-		<div className={cn("header", { search: isSearchPage })}>
+		<div className={cn("header", { search: isSearchPage || isRealtyPage })}>
 			{isSearchPage ? (
-				<SearchPageHeader
-					onLogoutClick={onLogoutClick}
-					openModal={openModal}
-					profile={profile}
-				/>
+				<>
+					<SearchPageHeader
+						onLogoutClick={onLogoutClick}
+						openModal={openModal}
+						profile={profile}
+					/>
+					<div className="line"></div>
+				</>
+			) : isRealtyPage ? (
+				<>
+					<RealtyPageHeader
+						onLogoutClick={onLogoutClick}
+						openModal={openModal}
+						profile={profile}
+					/>
+					<div className="line"></div>
+				</>
 			) : (
-				<HomePageHeader
-					onLogoutClick={onLogoutClick}
-					openModal={openModal}
-					profile={profile}
-				/>
+				<>
+					<HomePageHeader
+						onLogoutClick={onLogoutClick}
+						openModal={openModal}
+						profile={profile}
+					/>
+					<div className="line"></div>
+				</>
 			)}
 		</div>
 	);

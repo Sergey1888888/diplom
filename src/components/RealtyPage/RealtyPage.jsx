@@ -1,3 +1,5 @@
+import { LeftOutlined, RightOutlined } from "@ant-design/icons";
+import { Carousel } from "antd";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect, useHistory } from "react-router";
@@ -7,6 +9,7 @@ import {
 	getRealtyById,
 } from "../../redux/actions";
 import Preloader from "../Common/Preloader/Preloader";
+import RealtyInfo from "../RealtyInfo/RealtyInfo";
 
 const RealtyPage = ({ match }) => {
 	const realty = useSelector((state) => state.realty.selectedRealty);
@@ -21,9 +24,76 @@ const RealtyPage = ({ match }) => {
 			dispatch(deleteIsNotFound());
 		};
 	}, [dispatch, match.params.id]);
+	const SampleNextArrow = (props) => {
+		const { className, style, onClick } = props;
+		return (
+			<div
+				className={className}
+				style={{
+					...style,
+					color: "black",
+					fontSize: "20px",
+					lineHeight: "1.5715",
+				}}
+				onClick={onClick}
+			>
+				<RightOutlined />
+			</div>
+		);
+	};
+
+	const SamplePrevArrow = (props) => {
+		const { className, style, onClick } = props;
+		return (
+			<div
+				className={className}
+				style={{
+					...style,
+					color: "black",
+					fontSize: "20px",
+					lineHeight: "1.5715",
+				}}
+				onClick={onClick}
+			>
+				<LeftOutlined />
+			</div>
+		);
+	};
+
+	const settings = {
+		nextArrow: <SampleNextArrow />,
+		prevArrow: <SamplePrevArrow />,
+	};
 	if (isNotFound) return <Redirect to={() => history.goBack()} />;
-	if (isLoading) return <Preloader className="preloader" />;
-	return <div>{JSON.stringify(realty, null, 2)}</div>;
+	if (isLoading || !realty.photos) return <Preloader className="preloader" />;
+	return (
+		<div style={{ width: "100%", marginTop: "52px" }}>
+			<h1 style={{ display: "grid", placeItems: "center" }}>
+				Фото
+			</h1>
+			<div style={{ width: "70%", height: "475px", margin: "0 auto" }}>
+				<Carousel
+					dots={false}
+					arrows
+					{...settings}
+					style={{ margin: "auto 0", height: "100%" }}
+				>
+					{realty.photos.map((url) => (
+						<img
+							key={realty._id}
+							style={{ width: "80%", height: "100%", margin: "0 auto" }}
+							src={url}
+							alt="realty"
+						/>
+					))}
+				</Carousel>
+			</div>
+			<h1 style={{ marginTop: "52px", display: "grid", placeItems: "center" }}>
+				Параметры
+			</h1>
+			<RealtyInfo realty={realty} />
+		</div>
+	);
 };
 
 export default RealtyPage;

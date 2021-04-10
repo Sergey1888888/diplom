@@ -51,6 +51,7 @@ const Registration = ({ onRegistrationButtonClicked, closeModal }) => {
 		>
 			{({ isSubmitting }) => (
 				<Form id="regForm">
+					<h4>ФИО</h4>
 					<Form.Item
 						name="surname"
 						hasFeedback={true}
@@ -68,6 +69,7 @@ const Registration = ({ onRegistrationButtonClicked, closeModal }) => {
 					>
 						<Input type="text" name="patronymic" placeholder="Отчество" />
 					</Form.Item>
+					<h4>Номер телефона</h4>
 					<Form.Item
 						name="phoneNumber"
 						hasFeedback={true}
@@ -80,9 +82,11 @@ const Registration = ({ onRegistrationButtonClicked, closeModal }) => {
 							maxLength={11}
 						/>
 					</Form.Item>
+					<h4>Email</h4>
 					<Form.Item name="email" hasFeedback={true} showValidateSuccess={true}>
 						<Input type="email" name="email" placeholder="E-mail" />
 					</Form.Item>
+					<h4>Пароль</h4>
 					<Form.Item
 						name="password"
 						hasFeedback={true}

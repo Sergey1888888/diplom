@@ -59,7 +59,7 @@ export const realtyAPI = {
 	paginate(currentPage, filters = {}, sorts = {}) {
 		return instance
 			.get(
-				`realty?limit=2&page=${currentPage}&filter=${JSON.stringify(
+				`realty?limit=3&page=${currentPage}&filter=${JSON.stringify(
 					filters
 				)}&sort=${JSON.stringify(sorts)}`
 			)

@@ -5,7 +5,7 @@ import { Formik } from "formik";
 import * as Yup from "yup";
 import { LineOutlined } from "@ant-design/icons";
 import { useDispatch, useSelector } from "react-redux";
-import { updateFilters } from "../../redux/actions";
+import { setNotDefaultFilter, updateFilters } from "../../redux/actions";
 
 const Filters = ({ setShowFilters }) => {
 	const dispatch = useDispatch();
@@ -97,6 +97,7 @@ const Filters = ({ setShowFilters }) => {
 						}
 					}
 					dispatch(updateFilters(values));
+					dispatch(setNotDefaultFilter(true));
 					setShowFilters(false);
 					setIsChanged(false);
 					setSubmitting(false);

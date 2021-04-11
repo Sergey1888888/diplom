@@ -10,6 +10,7 @@ import {
 	UPDATE_FILTERS,
 	UPDATE_SORTS,
 	SET_HAS_NEXT_PAGE,
+	SET_NOT_DEFAULT_FILTER,
 } from "../actionTypes";
 
 const initialState = {
@@ -36,6 +37,7 @@ const initialState = {
 	},
 	sortsType: 1,
 	hasNextPage: false,
+	notDefaultFilter: false,
 };
 
 const realtyReducer = (state = initialState, action) => {
@@ -68,6 +70,8 @@ const realtyReducer = (state = initialState, action) => {
 			};
 		case SET_HAS_NEXT_PAGE:
 			return { ...state, hasNextPage: action.payload };
+		case SET_NOT_DEFAULT_FILTER:
+			return { ...state, notDefaultFilter: action.payload };
 		default:
 			return state;
 	}

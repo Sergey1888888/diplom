@@ -18,6 +18,7 @@ import {
 	UPDATE_SORTS,
 	SET_AUTH_IS_LOADING,
 	SET_HAS_NEXT_PAGE,
+	SET_NOT_DEFAULT_FILTER,
 } from "./actionTypes";
 import { authAPI, realtyAPI, setToken, usersAPI } from "./../api/api";
 import { message, notification } from "antd";
@@ -155,6 +156,10 @@ export const updateFilters = (payload) => ({ type: UPDATE_FILTERS, payload });
 export const updateSorts = (payload) => ({ type: UPDATE_SORTS, payload });
 export const setHasNextPage = (payload) => ({
 	type: SET_HAS_NEXT_PAGE,
+	payload,
+});
+export const setNotDefaultFilter = (payload) => ({
+	type: SET_NOT_DEFAULT_FILTER,
 	payload,
 });
 

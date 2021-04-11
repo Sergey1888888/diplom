@@ -92,6 +92,7 @@ class VirtualizedExample extends React.Component {
 
 	renderItem = ({ index, key, style }) => {
 		const { data } = this.props;
+		const { notDefaultFilter } = this.props;
 		const item = data[index];
 		const rating = Math.ceil(item.rating / 10) / 2;
 		let rooms = "";
@@ -123,7 +124,13 @@ class VirtualizedExample extends React.Component {
 									Рейтинг
 								</div>
 								<Tooltip
-									title={<div>{`По мнению эксперта ${item.rating} / 100`}</div>}
+									title={
+										<div>
+											{notDefaultFilter
+												? `С учетом ваших пожеланий ${item.rating} / 100`
+												: `По мнению эксперта ${item.rating} / 100`}
+										</div>
+									}
 									placement="top"
 								>
 									<div>
@@ -274,6 +281,7 @@ const mapStateToProps = (state) => {
 		filters: state.realty.filters,
 		sorts: state.realty.sorts,
 		hasNextPage: state.realty.hasNextPage,
+		notDefaultFilter: state.realty.notDefaultFilter,
 	};
 };
 

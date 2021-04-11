@@ -70,4 +70,7 @@ export const realtyAPI = {
 			.get(`realty/total?filter=${JSON.stringify(filters)}`)
 			.then((response) => response.data);
 	},
+	getOwnersRealties(ownerId) {
+		return instance.get(`realty/owner/${ownerId}`).then((response) => response.data);
+	},
 };

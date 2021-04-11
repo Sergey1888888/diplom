@@ -11,6 +11,8 @@ import {
 	UPDATE_SORTS,
 	SET_HAS_NEXT_PAGE,
 	SET_NOT_DEFAULT_FILTER,
+	SET_OWNER_REALTIES,
+	SET_IS_OWNER_REALTIES_LOADING,
 } from "../actionTypes";
 
 const initialState = {
@@ -38,6 +40,8 @@ const initialState = {
 	sortsType: 1,
 	hasNextPage: false,
 	notDefaultFilter: false,
+	ownerRealties: [],
+	isOwnerRealtiesLoading: false,
 };
 
 const realtyReducer = (state = initialState, action) => {
@@ -72,6 +76,10 @@ const realtyReducer = (state = initialState, action) => {
 			return { ...state, hasNextPage: action.payload };
 		case SET_NOT_DEFAULT_FILTER:
 			return { ...state, notDefaultFilter: action.payload };
+		case SET_OWNER_REALTIES:
+			return { ...state, ownerRealties: [].concat(action.payload) };
+		case SET_IS_OWNER_REALTIES_LOADING:
+			return { ...state, isOwnerRealtiesLoading: action.payload };
 		default:
 			return state;
 	}

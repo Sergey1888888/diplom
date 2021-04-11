@@ -19,6 +19,8 @@ import {
 	SET_AUTH_IS_LOADING,
 	SET_HAS_NEXT_PAGE,
 	SET_NOT_DEFAULT_FILTER,
+	SET_OWNER_REALTIES,
+	SET_IS_OWNER_REALTIES_LOADING,
 } from "./actionTypes";
 import { authAPI, realtyAPI, setToken, usersAPI } from "./../api/api";
 import { message, notification } from "antd";
@@ -162,6 +164,15 @@ export const setNotDefaultFilter = (payload) => ({
 	type: SET_NOT_DEFAULT_FILTER,
 	payload,
 });
+export const setOwnerRealties = (payload) => ({
+	type: SET_OWNER_REALTIES,
+	payload,
+});
+
+export const setIsOwnersRealtiesLoading = (payload) => ({
+	type: SET_IS_OWNER_REALTIES_LOADING,
+	payload,
+});
 
 export const getRealtyById = (id) => (dispatch) => {
 	dispatch(setIsLoading(true));
@@ -208,6 +219,22 @@ export const getData = (currentPage, filters = {}, sorts = {}) => (
 				error?.response?.data?.message === "minPrice must be less than maxPrice"
 			)
 				message.error("Минимальная цена должна быть больше максимальной!");
+		});
+};
+
+export const getRealtiesByOwnerId = (ownerId) => (dispatch) => {
+	dispatch(setIsOwnersRealtiesLoading(true));
+	return realtyAPI
+		.getOwnersRealties(ownerId)
+		.then((data) => {
+			dispatch(setOwnerRealties(data));
+			dispatch(setIsOwnersRealtiesLoading(false));
+		})
+		.catch((error) => {
+			console.log(
+				"Ошибка поиска своих объявлений: " + error.response.statusText
+			);
+			dispatch(setIsOwnersRealtiesLoading(false));
 		});
 };
 

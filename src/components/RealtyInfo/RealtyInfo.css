@@ -1,3 +1,23 @@
-.cols > div {
+.parameters > div:nth-child(odd) {
     height: 100%;
+    text-align: end;
+    font-family: Roboto !important;
+	font-style: normal !important;
+	font-weight: 500 !important;
+	font-size: 16px !important;
+	line-height: 30px !important;
+}
+
+.parameters > div:nth-child(even) {
+    height: 100%;
+    font-size: 15px !important;
+	line-height: 28px !important;
+	letter-spacing: 0.05em !important;
+}
+
+.infr > div {
+	flex: 0 0 calc(33.3% - 20px);
+	text-align: center;
+  	padding: 20px 20px 0px 20px;
+  	margin: 10px;
 }

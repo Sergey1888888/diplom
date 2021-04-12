@@ -21,6 +21,8 @@ import {
 	SET_NOT_DEFAULT_FILTER,
 	SET_OWNER_REALTIES,
 	SET_IS_OWNER_REALTIES_LOADING,
+	SET_OWNER_REALTIES_IDS,
+	UPDATE_PROFILE_IS_LOADING,
 } from "./actionTypes";
 import { authAPI, realtyAPI, setToken, usersAPI } from "./../api/api";
 import { message, notification } from "antd";
@@ -28,6 +30,10 @@ import { message, notification } from "antd";
 // users-reducer
 export const setProfile = (payload) => ({ type: SET_PROFILE, payload });
 export const deleteProfile = () => ({ type: DELETE_PROFILE });
+export const isUpdateProfileLoading = (payload) => ({
+	type: UPDATE_PROFILE_IS_LOADING,
+	payload,
+});
 
 export const getProfile = (id) => (dispatch) => {
 	return usersAPI
@@ -37,6 +43,20 @@ export const getProfile = (id) => (dispatch) => {
 		})
 		.catch((error) => {
 			console.log(error);
+		});
+};
+
+export const updateProfile = (id, updatedProfile) => (dispatch) => {
+	dispatch(isUpdateProfileLoading(true));
+	return usersAPI
+		.updateProfile(id, updatedProfile)
+		.then(() => {
+			dispatch(getProfile(id));
+			dispatch(isUpdateProfileLoading(false));
+		})
+		.then((error) => {
+			console.log(error);
+			dispatch(isUpdateProfileLoading(false));
 		});
 };
 
@@ -168,9 +188,12 @@ export const setOwnerRealties = (payload) => ({
 	type: SET_OWNER_REALTIES,
 	payload,
 });
-
 export const setIsOwnersRealtiesLoading = (payload) => ({
 	type: SET_IS_OWNER_REALTIES_LOADING,
+	payload,
+});
+export const setOwnerRealtiesIds = (payload) => ({
+	type: SET_OWNER_REALTIES_IDS,
 	payload,
 });
 
@@ -228,6 +251,8 @@ export const getRealtiesByOwnerId = (ownerId) => (dispatch) => {
 		.getOwnersRealties(ownerId)
 		.then((data) => {
 			dispatch(setOwnerRealties(data));
+			const realtyIds = data.map((realty) => realty._id);
+			dispatch(setOwnerRealtiesIds(realtyIds));
 			dispatch(setIsOwnersRealtiesLoading(false));
 		})
 		.catch((error) => {

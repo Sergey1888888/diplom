@@ -50,6 +50,11 @@ export const usersAPI = {
 			})
 			.then((response) => response.data);
 	},
+	updateProfile(id, updatedProfile) {
+		return instance
+			.put(`users/${id}`, updatedProfile)
+			.then((response) => response.data);
+	},
 };
 
 export const realtyAPI = {
@@ -71,6 +76,8 @@ export const realtyAPI = {
 			.then((response) => response.data);
 	},
 	getOwnersRealties(ownerId) {
-		return instance.get(`realty/owner/${ownerId}`).then((response) => response.data);
+		return instance
+			.get(`realty/owner/${ownerId}`)
+			.then((response) => response.data);
 	},
 };

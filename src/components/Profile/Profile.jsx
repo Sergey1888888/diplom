@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import { Button, Card } from "antd";
+import React, { useEffect, useState } from "react";
+import { Card } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import EditButton from "../Common/EditButton/EditButton";
 import "./Profile.css";
@@ -9,6 +9,8 @@ import { getRealtiesByOwnerId } from "../../redux/actions";
 import Preloader from "../Common/Preloader/Preloader";
 import { Link } from "react-router-dom";
 import { timeConverter } from "../../helpers/convertDate";
+import ProfileInfo from "../ProfileInfo/ProfileInfo";
+import EditProfile from "../EditProfile/EditProfile";
 
 const Profile = () => {
 	const profile = useSelector((state) => state.users.profile);
@@ -17,6 +19,8 @@ const Profile = () => {
 	const isOwnerRealtiesLoading = useSelector(
 		(state) => state.realty.isOwnerRealtiesLoading
 	);
+	const isLoading = useSelector((state) => state.users.isLoading);
+	const [editMode, setEditMode] = useState(false);
 	const dispatch = useDispatch();
 	useEffect(() => {
 		if (ownerRealties.length === 0) dispatch(getRealtiesByOwnerId(userId));
@@ -30,32 +34,17 @@ const Profile = () => {
 				<div className="dataFlex">
 					<div className="dataAvatarWrapper">
 						<UploadAvatar />
-						<div className="data">
-							{profile && (
-								<div className="data-item fw300 fs24">
-									{"".concat(
-										profile.surname,
-										" ",
-										profile.name,
-										" ",
-										profile.patronymic
-									)}
-								</div>
-							)}
-							{profile && (
-								<div className="data-item fw300 fs24">
-									{profile.phoneNumber}
-								</div>
-							)}
-							{profile && profile.telegram && (
-								<div className="data-item fw300 fs24">{profile.telegram}</div>
-							)}
-							{profile && profile.vk && (
-								<div className="data-item fw300 fs24">{profile.vk}</div>
-							)}
-						</div>
+						{!editMode ? (
+							<ProfileInfo profile={profile} />
+						) : (
+							<EditProfile profile={profile} setEditMode={setEditMode} />
+						)}
 					</div>
-					<EditButton />
+					{isLoading ? (
+						<Preloader />
+					) : (
+						<EditButton onClick={() => setEditMode(!editMode)} />
+					)}
 				</div>
 			</div>
 			<div
@@ -94,7 +83,9 @@ const Profile = () => {
 									>
 										<Meta
 											title={`${realty.rooms} комнатная ${normType} в ${normDistrict} районе`}
-											description={`Добавлено: ${timeConverter(1618155840649)}`}
+											description={`Добавлено: ${timeConverter(
+												realty.created_at
+											)}`}
 										/>
 									</Card>
 								</Link>

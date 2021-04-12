@@ -21,8 +21,7 @@
 .dataAvatarWrapper {
 	display: flex;
 	justify-content: space-between;
-	width: 680px;
-	height: 181px;
+	height: 185px;
 }
 
 .dataFlex {
@@ -31,11 +30,34 @@
 }
 
 .data {
-	width: 480px;
-	height: 181px;
+	width: auto;
+	height: 185px;
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
+}
+
+.data-item {
+	width: max-content;
+}
+
+.data-item-input {
+	display: flex;
+	justify-content: space-between;
+}
+
+#profileForm .ant-form-item-control-input-content {
+	display: flex;
+	width: max-content;
+	justify-content: space-between;
+	align-items: center;
+}
+
+#profileForm .ant-form {
+	display: flex;
+	flex-direction: column;
+	width: 300px;
+	height: 185px;
 }
 
 .avatarChangeBtn {

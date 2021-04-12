@@ -1,7 +1,12 @@
-import { DELETE_PROFILE, SET_PROFILE } from "../actionTypes";
+import {
+	DELETE_PROFILE,
+	SET_PROFILE,
+	UPDATE_PROFILE_IS_LOADING,
+} from "../actionTypes";
 
 const initialState = {
 	profile: null,
+	isLoading: false,
 };
 
 const usersReducer = (state = initialState, action) => {
@@ -16,6 +21,8 @@ const usersReducer = (state = initialState, action) => {
 				...state,
 				profile: null,
 			};
+		case UPDATE_PROFILE_IS_LOADING:
+			return { ...state, isLoading: action.payload };
 		default:
 			return state;
 	}

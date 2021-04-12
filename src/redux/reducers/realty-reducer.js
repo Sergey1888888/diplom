@@ -13,6 +13,7 @@ import {
 	SET_NOT_DEFAULT_FILTER,
 	SET_OWNER_REALTIES,
 	SET_IS_OWNER_REALTIES_LOADING,
+	SET_OWNER_REALTIES_IDS,
 } from "../actionTypes";
 
 const initialState = {
@@ -42,6 +43,7 @@ const initialState = {
 	notDefaultFilter: false,
 	ownerRealties: [],
 	isOwnerRealtiesLoading: false,
+	ownerRealtiesIds: [],
 };
 
 const realtyReducer = (state = initialState, action) => {
@@ -80,6 +82,8 @@ const realtyReducer = (state = initialState, action) => {
 			return { ...state, ownerRealties: [].concat(action.payload) };
 		case SET_IS_OWNER_REALTIES_LOADING:
 			return { ...state, isOwnerRealtiesLoading: action.payload };
+		case SET_OWNER_REALTIES_IDS:
+			return { ...state, ownerRealtiesIds: action.payload };
 		default:
 			return state;
 	}

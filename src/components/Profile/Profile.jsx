@@ -137,6 +137,7 @@ const Profile = () => {
 														name: photo,
 														status: "done",
 														url: photo,
+														type: "image/jpeg",
 													}));
 													setFileList(photos);
 												}}

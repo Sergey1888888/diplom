@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { PlusOutlined } from "@ant-design/icons";
 import { Upload, message, Button } from "antd";
 import { ProfileContext } from "../Profile/Profile";
@@ -21,6 +21,7 @@ const EditRealty = ({ realty, setShowEditRealty }) => {
 	const [previewVisible, setPreviewVisible] = useState(false);
 	const [previewImage, setPreviewImage] = useState("");
 	const [previewTitle, setPreviewTitle] = useState("");
+	const [isAllowedImage, setIsAllowedImage] = useState(true);
 	const isUpdating = useSelector((state) => state.realty.isUpdating);
 	const dispatch = useDispatch();
 
@@ -38,17 +39,28 @@ const EditRealty = ({ realty, setShowEditRealty }) => {
 		);
 	};
 
-	const handleChange = ({ fileList }) => setFileList(fileList);
+	const handleChange = ({ fileList }) => {
+		setFileList(fileList);
+		const notAllowed = fileList.filter((photo) => {
+			if (photo.type === "image/jpeg" || photo.type === "image/png")
+				return false;
+			else return true;
+		});
+		if (notAllowed.length !== 0) setIsAllowedImage(false);
+		else setIsAllowedImage(true);
+	};
 
 	const beforeUpload = (file) => {
 		const isJpgOrPng = file.type === "image/jpeg" || file.type === "image/png";
 		if (!isJpgOrPng) {
 			message.error("Вы можете загружать только JPG и PNG файлы!");
+			setIsAllowedImage(false);
 			return false;
 		}
 		const isLt2M = file.size / 1024 / 1024 < 2;
 		if (!isLt2M) {
 			message.error("Изображение должно быть меньше 2 МБ!");
+			setIsAllowedImage(false);
 			return false;
 		}
 		setFileList([...fileList, file]);
@@ -69,7 +81,6 @@ const EditRealty = ({ realty, setShowEditRealty }) => {
 			setShowEditRealty(false)
 		);
 	};
-
 	const uploadButton = (
 		<div>
 			<PlusOutlined />
@@ -85,13 +96,14 @@ const EditRealty = ({ realty, setShowEditRealty }) => {
 				onChange={handleChange}
 				beforeUpload={beforeUpload}
 			>
-				{fileList.length >= 8 ? null : uploadButton}
+				{fileList.length >= 5 ? null : uploadButton}
 			</Upload>
 			<Button
 				className="fw300"
 				type="primary"
 				loading={isUpdating}
 				onClick={handleUpload}
+				disabled={!isAllowedImage}
 			>
 				Обновить данные
 			</Button>

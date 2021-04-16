@@ -64,7 +64,7 @@ const SearchPageHeader = ({ onLogoutClick, openModal, profile }) => {
 				) : (
 					<>
 						<Button className="mySales" type="link">
-							Мои продажи
+							Создать объявление
 						</Button>
 						<Link to="/profile" className="authName">
 							<Button className="logout" type="default">
@@ -88,6 +88,7 @@ const SearchPageHeader = ({ onLogoutClick, openModal, profile }) => {
 
 const RealtyPageHeader = () => {
 	const selectedRealty = useSelector((state) => state.realty.selectedRealty);
+	const history = useHistory();
 	let normType = "";
 	let normDistrict = "";
 	if (selectedRealty.type) {
@@ -103,7 +104,10 @@ const RealtyPageHeader = () => {
 		<>
 			<PageHeader
 				ghost={false}
-				onBack={() => window.history.back()}
+				onBack={() => {
+					if (window.history.length === 1) history.push("/search");
+					else window.history.back();
+				}}
 				title={
 					selectedRealty.type ? (
 						<div>

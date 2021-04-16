@@ -14,6 +14,8 @@ import {
 	SET_OWNER_REALTIES,
 	SET_IS_OWNER_REALTIES_LOADING,
 	SET_OWNER_REALTIES_IDS,
+	DELETE_REALTY_IS_FETCHING,
+	SET_IS_UPDATING,
 } from "../actionTypes";
 
 const initialState = {
@@ -44,6 +46,8 @@ const initialState = {
 	ownerRealties: [],
 	isOwnerRealtiesLoading: false,
 	ownerRealtiesIds: [],
+	isDeletingRealty: false,
+	isUpdating: false,
 };
 
 const realtyReducer = (state = initialState, action) => {
@@ -84,6 +88,10 @@ const realtyReducer = (state = initialState, action) => {
 			return { ...state, isOwnerRealtiesLoading: action.payload };
 		case SET_OWNER_REALTIES_IDS:
 			return { ...state, ownerRealtiesIds: action.payload };
+		case DELETE_REALTY_IS_FETCHING:
+			return { ...state, isDeletingRealty: action.payload };
+		case SET_IS_UPDATING:
+			return { ...state, isUpdating: action.payload };
 		default:
 			return state;
 	}

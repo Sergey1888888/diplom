@@ -80,4 +80,14 @@ export const realtyAPI = {
 			.get(`realty/owner/${ownerId}`)
 			.then((response) => response.data);
 	},
+	deleteOwnersRealty(realtyId) {
+		return instance
+			.delete(`realty/${realtyId}`)
+			.then((response) => response.data);
+	},
+	updatePhotos(id, formData) {
+		return instance
+			.put(`realty/photos/${id}`, formData)
+			.then((response) => response.data);
+	},
 };

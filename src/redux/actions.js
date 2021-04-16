@@ -23,6 +23,8 @@ import {
 	SET_IS_OWNER_REALTIES_LOADING,
 	SET_OWNER_REALTIES_IDS,
 	UPDATE_PROFILE_IS_LOADING,
+	DELETE_REALTY_IS_FETCHING,
+	SET_IS_UPDATING,
 } from "./actionTypes";
 import { authAPI, realtyAPI, setToken, usersAPI } from "./../api/api";
 import { message, notification } from "antd";
@@ -196,6 +198,11 @@ export const setOwnerRealtiesIds = (payload) => ({
 	type: SET_OWNER_REALTIES_IDS,
 	payload,
 });
+export const deleteRealtyIsFetching = (payload) => ({
+	type: DELETE_REALTY_IS_FETCHING,
+	payload,
+});
+export const setIsUpdating = (payload) => ({ type: SET_IS_UPDATING, payload });
 
 export const getRealtyById = (id) => (dispatch) => {
 	dispatch(setIsLoading(true));
@@ -261,6 +268,25 @@ export const getRealtiesByOwnerId = (ownerId) => (dispatch) => {
 			);
 			dispatch(setIsOwnersRealtiesLoading(false));
 		});
+};
+
+export const deleteRealtyById = (realtyId, ownerId) => (dispatch) => {
+	dispatch(deleteRealtyIsFetching(true));
+	return realtyAPI.deleteOwnersRealty(realtyId).then(() => {
+		dispatch(getRealtiesByOwnerId(ownerId));
+		dispatch(deleteRealtyIsFetching(false));
+	});
+};
+
+export const updatePhotos = (realtyId, formData, ownerId) => (dispatch) => {
+	dispatch(setIsUpdating(true));
+	return realtyAPI
+		.updatePhotos(realtyId, formData)
+		.then(() => {
+			dispatch(getRealtiesByOwnerId(ownerId));
+			dispatch(setIsUpdating(false));
+		})
+		.catch((error) => console.log(error));
 };
 
 export const getHasNextPage = () => async (dispatch, getState) => {

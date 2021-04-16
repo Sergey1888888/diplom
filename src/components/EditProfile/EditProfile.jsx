@@ -30,22 +30,25 @@ const EditProfile = ({ profile, setEditMode }) => {
 						),
 						"Пароль должен состоять из букв верхнего и нижнего регистра, как минимум 1 цифры и 1 спец. символа. Минимальная длина - 8 символов."
 					),
-					telegram: Yup.string().matches(
-						new RegExp("^@[a-zA-Z0-9]"),
-						"Введите логин Telegram"
-					),
-					vk: Yup.string().matches(
-						new RegExp(
-							"(http://|https://)?(www.)?(vk.com|vkontakte.ru)/(id(d{9})|[a-zA-Z0-9_.]+)"
-						),
-						"Введите ссылку на страницу ВК"
-					),
-					whatsup: Yup.string().matches(
-						new RegExp(
-							"^(([0-9]{1})*[- .(]*([0-9]{3})[- .)]*[0-9]{3}[- .]*[0-9]{4})+$"
-						),
-						"Введите телефон WhatsApp"
-					),
+					telegram: Yup.string()
+						.matches(new RegExp("^@[a-zA-Z0-9]"), "Введите логин Telegram")
+						.nullable(),
+					vk: Yup.string()
+						.matches(
+							new RegExp(
+								"(http://|https://)?(www.)?(vk.com|vkontakte.ru)/(id(d{9})|[a-zA-Z0-9_.]+)"
+							),
+							"Введите ссылку на страницу ВК"
+						)
+						.nullable(),
+					whatsup: Yup.string()
+						.matches(
+							new RegExp(
+								"^(([0-9]{1})*[- .(]*([0-9]{3})[- .)]*[0-9]{3}[- .]*[0-9]{4})+$"
+							),
+							"Введите телефон WhatsApp"
+						)
+						.nullable(),
 				})}
 				onSubmit={(values, { setSubmitting }) => {
 					let updatedData = {};

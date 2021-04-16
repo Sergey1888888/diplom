@@ -24,24 +24,18 @@ const ProfileInfo = ({ profile }) => {
 					{profile.phoneNumber}
 				</div>
 			) : null}
-			{profile?.telegram ? (
-				<div className="data-item fw300 fs24">
-					<span className="fw500 fs24">Telegram: </span>
-					{profile.telegram}
-				</div>
-			) : null}
-			{profile?.vk ? (
-				<div className="data-item fw300 fs24">
-					<span className="fw500 fs24">VK: </span>
-					{profile.vk}
-				</div>
-			) : null}
-			{profile?.whatsup ? (
-				<div className="data-item fw300 fs24">
-					<span className="fw500 fs24">WhatsApp: </span>
-					{profile.whatsup}
-				</div>
-			) : null}
+			<div className="data-item fw300 fs24">
+				<span className="fw500 fs24">Telegram: </span>
+				{profile?.telegram ? profile.telegram : "не указан"}
+			</div>
+			<div className="data-item fw300 fs24">
+				<span className="fw500 fs24">VK: </span>
+				{profile?.vk ? profile.vk : "не указан"}
+			</div>
+			<div className="data-item fw300 fs24">
+				<span className="fw500 fs24">WhatsApp: </span>
+				{profile?.whatsup ? profile.whatsup : "не указан"}
+			</div>
 		</div>
 	);
 };

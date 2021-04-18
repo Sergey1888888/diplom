@@ -16,6 +16,7 @@ import {
 	SET_OWNER_REALTIES_IDS,
 	DELETE_REALTY_IS_FETCHING,
 	SET_IS_UPDATING,
+	DELETE_ALL_WHEN_LOGOUT,
 } from "../actionTypes";
 
 const initialState = {
@@ -92,6 +93,8 @@ const realtyReducer = (state = initialState, action) => {
 			return { ...state, isDeletingRealty: action.payload };
 		case SET_IS_UPDATING:
 			return { ...state, isUpdating: action.payload };
+		case DELETE_ALL_WHEN_LOGOUT:
+			return { ...state, ownerRealties: [], ownerRealtiesIds: [] };
 		default:
 			return state;
 	}

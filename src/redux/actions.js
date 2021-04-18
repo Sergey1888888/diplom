@@ -25,6 +25,7 @@ import {
 	UPDATE_PROFILE_IS_LOADING,
 	DELETE_REALTY_IS_FETCHING,
 	SET_IS_UPDATING,
+	DELETE_ALL_WHEN_LOGOUT,
 } from "./actionTypes";
 import { authAPI, realtyAPI, setToken, usersAPI } from "./../api/api";
 import { message, notification } from "antd";
@@ -113,6 +114,7 @@ export const Logout = () => (dispatch) => {
 	dispatch(deleteProfile());
 	dispatch(deleteIsAuth());
 	dispatch(deleteUserId());
+	dispatch(deleteAllWhenLogout());
 };
 
 export const Registration = (profileData) => (dispatch) => {
@@ -203,6 +205,7 @@ export const deleteRealtyIsFetching = (payload) => ({
 	payload,
 });
 export const setIsUpdating = (payload) => ({ type: SET_IS_UPDATING, payload });
+export const deleteAllWhenLogout = () => ({ type: DELETE_ALL_WHEN_LOGOUT });
 
 export const getRealtyById = (id) => (dispatch) => {
 	dispatch(setIsLoading(true));

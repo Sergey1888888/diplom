@@ -278,15 +278,47 @@ export const deleteRealtyById = (realtyId, ownerId) => (dispatch) => {
 	});
 };
 
-export const updatePhotos = (realtyId, formData, ownerId) => (dispatch) => {
+export const createRealty = (
+	data,
+	formData,
+	ownerId,
+	setShowEditRealtyCallback
+) => (dispatch) => {
 	dispatch(setIsUpdating(true));
-	return realtyAPI
-		.updatePhotos(realtyId, formData)
-		.then(() => {
+	data["ownerId"] = ownerId;
+	return realtyAPI.createRealty(data).then((realtyId) => {
+		dispatch(updatePhotos(realtyId, formData)).then(() => {
 			dispatch(getRealtiesByOwnerId(ownerId));
 			dispatch(setIsUpdating(false));
+			setShowEditRealtyCallback(false);
+		});
+	});
+};
+
+export const updatePhotos = (realtyId, formData) => (dispatch) => {
+	return realtyAPI
+		.updatePhotos(realtyId, formData)
+		.catch((error) => message.error("Ошибка загрузки фотографий"));
+};
+
+export const updateRealty = (
+	realtyId,
+	data,
+	formData,
+	ownerId,
+	setShowEditRealtyCallback
+) => (dispatch) => {
+	dispatch(setIsUpdating(true));
+	return realtyAPI
+		.updateRealty(realtyId, data)
+		.then(() => {
+			dispatch(updatePhotos(realtyId, formData)).then(() => {
+				dispatch(getRealtiesByOwnerId(ownerId));
+				dispatch(setIsUpdating(false));
+				setShowEditRealtyCallback(false);
+			});
 		})
-		.catch((error) => console.log(error));
+		.catch((error) => message.error("Ошибка обновления данных"));
 };
 
 export const getHasNextPage = () => async (dispatch, getState) => {

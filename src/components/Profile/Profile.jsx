@@ -1,5 +1,5 @@
 import React, { createContext, useEffect, useState } from "react";
-import { Button, Card, Popconfirm, Tooltip } from "antd";
+import { Card, Popconfirm, Tooltip } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import "./Profile.css";
 import UploadAvatar from "../UploadAvatar/UploadAvatar";
@@ -52,6 +52,7 @@ const Profile = () => {
 					onCancel={() => setShowEditRealty(false)}
 					className="fw300"
 					footer={null}
+					style={{ minWidth: "40%" }}
 				>
 					<ProfileContext.Provider value={{ fileList, setFileList }}>
 						<EditRealty realty={realty} setShowEditRealty={setShowEditRealty} />
@@ -165,7 +166,11 @@ const Profile = () => {
 									]}
 								>
 									<Meta
-										title={`${realty.rooms} комнатная ${normType} в ${normDistrict} районе`}
+										title={
+											realty.rooms
+												? `${realty.rooms} комнатная ${normType} в ${normDistrict} районе`
+												: `${realty.type} в ${normDistrict} районе`
+										}
 										description={`Добавлено: ${timeConverter(
 											realty.created_at
 										)}`}

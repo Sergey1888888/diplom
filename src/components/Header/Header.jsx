@@ -1,5 +1,5 @@
-import React from "react";
-import { Button, PageHeader } from "antd";
+import React, { createContext, useState } from "react";
+import { Button, Modal, PageHeader } from "antd";
 import { Link, useHistory, useLocation } from "react-router-dom";
 import Logo from "../Common/Logo/Logo";
 import cn from "classnames";
@@ -7,6 +7,7 @@ import "./Header.css";
 import { useDispatch, useSelector } from "react-redux";
 import { Logout } from "../../redux/actions";
 import Preloader from "../Common/Preloader/Preloader";
+import EditRealty from "../EditRealty/EditRealty";
 
 const HomePageHeader = ({ onLogoutClick, openModal, profile }) => {
 	return (
@@ -48,9 +49,26 @@ const HomePageHeader = ({ onLogoutClick, openModal, profile }) => {
 	);
 };
 
+export const SearchPageHeaderContext = createContext();
 const SearchPageHeader = ({ onLogoutClick, openModal, profile }) => {
+	const [showEditRealty, setShowEditRealty] = useState(false);
+	const [fileList, setFileList] = useState([]);
 	return (
 		<>
+			{showEditRealty && (
+				<Modal
+					title="Создание объявления"
+					visible={showEditRealty}
+					onCancel={() => setShowEditRealty(false)}
+					className="fw300"
+					footer={null}
+					style={{ minWidth: "40%" }}
+				>
+					<SearchPageHeaderContext.Provider value={{ fileList, setFileList }}>
+						<EditRealty setShowEditRealty={setShowEditRealty} toCreate={true} />
+					</SearchPageHeaderContext.Provider>
+				</Modal>
+			)}
 			<div className="logoLoginWrapperSearch">
 				<Link to="/" className="logoSearch">
 					<Logo />
@@ -63,7 +81,11 @@ const SearchPageHeader = ({ onLogoutClick, openModal, profile }) => {
 					</Button>
 				) : (
 					<>
-						<Button className="mySales" type="link">
+						<Button
+							className="mySales"
+							type="link"
+							onClick={() => setShowEditRealty(true)}
+						>
 							Создать объявление
 						</Button>
 						<Link to="/profile" className="authName">

@@ -1,124 +1,48 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
-import { PlusOutlined } from "@ant-design/icons";
-import { Upload, message, Button } from "antd";
+import { Button } from "antd";
+import React, { useContext, useRef, useState } from "react";
+import { useSelector } from "react-redux";
+import EditRealtyForm from "../EditRealtyForm/EditRealtyForm";
 import { ProfileContext } from "../Profile/Profile";
-import Modal from "antd/lib/modal/Modal";
-import { token } from "./../../api/api";
-import { useDispatch, useSelector } from "react-redux";
-import { updatePhotos } from "../../redux/actions";
+import RealtyImageUploader from "./../RealtyImageUploader/RealtyImageUploader";
+import { SearchPageHeaderContext } from "./../Header/Header";
 
-function getBase64(file) {
-	return new Promise((resolve, reject) => {
-		const reader = new FileReader();
-		reader.readAsDataURL(file);
-		reader.onload = () => resolve(reader.result);
-		reader.onerror = (error) => reject(error);
-	});
-}
-
-const EditRealty = ({ realty, setShowEditRealty }) => {
-	const { fileList, setFileList } = useContext(ProfileContext);
-	const [previewVisible, setPreviewVisible] = useState(false);
-	const [previewImage, setPreviewImage] = useState("");
-	const [previewTitle, setPreviewTitle] = useState("");
+const EditRealty = ({ realty, setShowEditRealty, toCreate }) => {
 	const [isAllowedImage, setIsAllowedImage] = useState(true);
 	const isUpdating = useSelector((state) => state.realty.isUpdating);
-	const dispatch = useDispatch();
-
-	const handleCancel = () => setPreviewVisible(false);
-
-	const handlePreview = async (file) => {
-		if (!file.url && !file.preview) {
-			file.preview = await getBase64(file.originFileObj);
-		}
-
-		setPreviewImage(file.url || file.preview);
-		setPreviewVisible(true);
-		setPreviewTitle(
-			file.name || file.url.substring(file.url.lastIndexOf("/") + 1)
-		);
-	};
-
-	const handleChange = ({ fileList }) => {
-		setFileList(fileList);
-		const notAllowed = fileList.filter((photo) => {
-			if (photo.type === "image/jpeg" || photo.type === "image/png")
-				return false;
-			else return true;
-		});
-		if (notAllowed.length !== 0) setIsAllowedImage(false);
-		else setIsAllowedImage(true);
-	};
-
-	const beforeUpload = (file) => {
-		const isJpgOrPng = file.type === "image/jpeg" || file.type === "image/png";
-		if (!isJpgOrPng) {
-			message.error("Вы можете загружать только JPG и PNG файлы!");
-			setIsAllowedImage(false);
-			return false;
-		}
-		const isLt2M = file.size / 1024 / 1024 < 2;
-		if (!isLt2M) {
-			message.error("Изображение должно быть меньше 2 МБ!");
-			setIsAllowedImage(false);
-			return false;
-		}
-		setFileList([...fileList, file]);
-		return false;
-	};
+	const { fileList } = useContext(
+		toCreate ? SearchPageHeaderContext : ProfileContext
+	);
+	const formRef = useRef();
 
 	const handleUpload = () => {
-		const formData = new FormData();
-		let photos = [];
-		fileList.forEach((file) => {
-			if (file.hasOwnProperty("size"))
-				formData.append("files", file.originFileObj);
-			else photos.push(file.url);
-		});
-		const stringPhotos = JSON.stringify(photos);
-		formData.append("photosToSave", stringPhotos);
-		dispatch(updatePhotos(realty._id, formData, realty.ownerId)).then(() =>
-			setShowEditRealty(false)
-		);
+		formRef.current.handleSubmit();
 	};
-	const uploadButton = (
-		<div>
-			<PlusOutlined />
-			<div style={{ marginTop: 8 }}>Добавить</div>
-		</div>
-	);
+
 	return (
-		<>
-			<Upload
-				listType="picture-card"
+		<div style={{ display: "flex", flexDirection: "column" }}>
+			<RealtyImageUploader
+				setIsAllowedImage={setIsAllowedImage}
+				toCreate={toCreate}
+			/>
+			<EditRealtyForm
+				realty={realty}
+				formRef={formRef}
+				toCreate={toCreate}
 				fileList={fileList}
-				onPreview={handlePreview}
-				onChange={handleChange}
-				beforeUpload={beforeUpload}
-			>
-				{fileList.length >= 5 ? null : uploadButton}
-			</Upload>
+				setShowEditRealty={setShowEditRealty}
+			/>
 			<Button
 				className="fw300"
 				type="primary"
 				loading={isUpdating}
 				onClick={handleUpload}
 				disabled={!isAllowedImage}
+				style={{ width: "200px", alignSelf: "center" }}
 			>
-				Обновить данные
+				{toCreate ? "Создать объявление" : "Обновить данные"}
 			</Button>
-			<Modal
-				visible={previewVisible}
-				title={previewTitle}
-				footer={null}
-				onCancel={handleCancel}
-			>
-				<img alt="realty" style={{ width: "100%" }} src={previewImage} />
-			</Modal>
-		</>
+		</div>
 	);
 };
 
 export default EditRealty;
-//TODO: вернуть picture-card но before upload оставить
-// handle upload вынести в кнопку сохранения редактирования

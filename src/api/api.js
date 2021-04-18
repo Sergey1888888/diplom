@@ -2,7 +2,7 @@ import * as axios from "axios";
 
 export let token = localStorage.getItem("token");
 let instance = axios.create({
-	baseURL: "https://nestjs-test-api.herokuapp.com/",
+	baseURL: "http://localhost:3001/",
 	headers: {
 		Authorization: `Bearer ${token}`,
 	},
@@ -12,7 +12,7 @@ export const setToken = (access_token) => {
 	else localStorage.removeItem("token");
 	token = localStorage.getItem("token");
 	instance = axios.create({
-		baseURL: "https://nestjs-test-api.herokuapp.com/",
+		baseURL: "http://localhost:3001/",
 		headers: {
 			Authorization: `Bearer ${token}`,
 		},
@@ -89,5 +89,11 @@ export const realtyAPI = {
 		return instance
 			.put(`realty/photos/${id}`, formData)
 			.then((response) => response.data);
+	},
+	updateRealty(id, data) {
+		return instance.put(`realty/${id}`, data).then((response) => response.data);
+	},
+	createRealty(data) {
+		return instance.post(`realty`, data).then((response) => response.data);
 	},
 };

@@ -114,6 +114,7 @@ const Filters = ({ setShowFilters }) => {
 							justifyContent: "space-between",
 							padding: "15px 0 15px",
 						}}
+						className="fw300 fs14"
 					>
 						<h4>Стоимость</h4>
 						<div style={{ display: "flex", justifyContent: "space-between" }}>
@@ -291,7 +292,12 @@ const Filters = ({ setShowFilters }) => {
 								onChange={onStreetChange}
 							/>
 						</Form.Item>
-						<Button type="primary" htmlType="submit" disabled={!isChanged}>
+						<Button
+							className="fw300 fs14"
+							type="primary"
+							htmlType="submit"
+							disabled={!isChanged}
+						>
 							Применить
 						</Button>
 					</Form>

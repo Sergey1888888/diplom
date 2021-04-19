@@ -90,6 +90,7 @@ const Profile = () => {
 					justifyContent: "center",
 					gap: "20px",
 				}}
+				className="fw300 fs14"
 			>
 				{!isOwnerRealtiesLoading ? (
 					ownerRealties.length ? (

@@ -31,6 +31,7 @@ const Sorts = ({ setShowSorts }) => {
 				width: "50%",
 				backgroundColor: "#fff",
 			}}
+			className="fw300 fs14"
 		>
 			<Formik
 				initialValues={{
@@ -115,7 +116,12 @@ const Sorts = ({ setShowSorts }) => {
 								<Radio.Button value={6}>Сначала большая площадь</Radio.Button>
 							</Radio.Group>
 						</Form.Item>
-						<Button type="primary" htmlType="submit" disabled={!isChanged}>
+						<Button
+							className="fw300 fs14"
+							type="primary"
+							htmlType="submit"
+							disabled={!isChanged}
+						>
 							Применить
 						</Button>
 					</Form>

@@ -160,7 +160,7 @@ const RealtyPageHeader = () => {
 				}}
 				title={
 					selectedRealty.type ? (
-						<div>
+						<div className="fw500 fs24">
 							{selectedRealty.rooms
 								? `${selectedRealty.rooms} комнатная ${normType} в ${normDistrict} районе`
 								: `${selectedRealty.type} в ${normDistrict} районе`}
@@ -173,6 +173,7 @@ const RealtyPageHeader = () => {
 					isAdmin
 						? [
 								<Popconfirm
+									className="fw300"
 									title="Вы уверены что хотите удалить это объявление?"
 									onConfirm={() =>
 										dispatch(deleteRealtyById(selectedRealty._id))
@@ -190,6 +191,7 @@ const RealtyPageHeader = () => {
 									</Button>
 								</Popconfirm>,
 								<Button
+									className="fw300 fs14"
 									key="2"
 									type="default"
 									onClick={() => {
@@ -206,12 +208,12 @@ const RealtyPageHeader = () => {
 								>
 									Редактировать
 								</Button>,
-								<Button key="3" type="primary">
+								<Button key="3" type="primary" className="fw300 fs14">
 									Связаться
 								</Button>,
 						  ]
 						: [
-								<Button key="1" type="primary">
+								<Button key="1" type="primary" className="fw300 fs14">
 									Связаться
 								</Button>,
 						  ]

@@ -80,7 +80,12 @@ const RealtyPage = ({ match }) => {
 	if (isLoading || !realty.photos) return <Preloader className="preloader" />;
 	return (
 		<div style={{ width: "100%", marginTop: "52px" }}>
-			<h1 style={{ display: "grid", placeItems: "center" }}>Фото</h1>
+			<h1
+				style={{ display: "grid", placeItems: "center" }}
+				className="fw500 fs24"
+			>
+				Фото
+			</h1>
 			<div style={{ width: "70%", height: "475px", margin: "0 auto" }}>
 				<Carousel
 					dots={false}
@@ -98,7 +103,10 @@ const RealtyPage = ({ match }) => {
 					))}
 				</Carousel>
 			</div>
-			<h1 style={{ marginTop: "52px", display: "grid", placeItems: "center" }}>
+			<h1
+				style={{ marginTop: "52px", display: "grid", placeItems: "center" }}
+				className="fw500 fs24"
+			>
 				Параметры
 			</h1>
 			<RealtyInfo realty={realty} />

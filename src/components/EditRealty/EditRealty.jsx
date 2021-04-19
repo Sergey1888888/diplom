@@ -46,7 +46,7 @@ const EditRealty = ({ realty, setShowEditRealty, toCreate, isAdmin }) => {
 				loading={isUpdating}
 				onClick={handleUpload}
 				disabled={!isAllowedImage || fileList.length === 0}
-				style={{ width: "200px", alignSelf: "center" }}
+				style={{ alignSelf: "center" }}
 			>
 				{toCreate ? "Создать объявление" : "Обновить данные"}
 			</Button>

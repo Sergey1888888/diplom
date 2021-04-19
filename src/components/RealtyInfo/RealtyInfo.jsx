@@ -4,7 +4,7 @@ import "./RealtyInfo.css";
 
 const RealtyInfo = ({ realty }) => {
 	return (
-		<div style={{ display: "flex", flexDirection: "column" }}>
+		<div style={{ display: "flex", flexDirection: "column" }} className="fw300">
 			<div
 				style={{
 					width: "100%",
@@ -122,7 +122,10 @@ const RealtyInfo = ({ realty }) => {
 				{realty.description && <div>Описание:</div>}
 				{realty.description && <div>{realty.description}</div>}
 			</div>
-			<h1 style={{ display: "grid", placeItems: "center", marginTop: "52px" }}>
+			<h1
+				style={{ display: "grid", placeItems: "center", marginTop: "52px" }}
+				className="fw500 fs24"
+			>
 				Инфраструктурный рейтинг
 			</h1>
 			<div

@@ -26,6 +26,8 @@ import {
 	DELETE_REALTY_IS_FETCHING,
 	SET_IS_UPDATING,
 	DELETE_ALL_WHEN_LOGOUT,
+	SET_COORDS,
+	DELETE_DATA_ON_CHANGE,
 } from "./actionTypes";
 import { authAPI, realtyAPI, setToken, usersAPI } from "./../api/api";
 import { message, notification } from "antd";
@@ -206,6 +208,15 @@ export const deleteRealtyIsFetching = (payload) => ({
 });
 export const setIsUpdating = (payload) => ({ type: SET_IS_UPDATING, payload });
 export const deleteAllWhenLogout = () => ({ type: DELETE_ALL_WHEN_LOGOUT });
+export const setCoords = (payload) => ({ type: SET_COORDS, payload });
+export const deleteDataOnChange = () => ({ type: DELETE_DATA_ON_CHANGE });
+
+export const getCoords = () => (dispatch) => {
+	return realtyAPI.getCoords().then((data) => {
+		console.log(data);
+		dispatch(setCoords(data));
+	});
+};
 
 export const getRealtyById = (id) => (dispatch) => {
 	dispatch(setIsLoading(true));
@@ -278,6 +289,8 @@ export const deleteRealtyById = (realtyId, ownerId) => (dispatch) => {
 	return realtyAPI.deleteOwnersRealty(realtyId).then(() => {
 		if (ownerId) {
 			dispatch(getRealtiesByOwnerId(ownerId));
+			dispatch(deleteDataOnChange());
+			dispatch(getCoords());
 			dispatch(deleteRealtyIsFetching(false));
 		} else {
 			window.document.location.reload();
@@ -298,6 +311,7 @@ export const createRealty = (
 		.then((realtyId) => {
 			dispatch(updatePhotos(realtyId, formData)).then(() => {
 				dispatch(getRealtiesByOwnerId(ownerId));
+				dispatch(getCoords());
 				dispatch(setIsUpdating(false));
 				setShowEditRealtyCallback(false);
 				window.document.location.reload();
@@ -329,6 +343,7 @@ export const updateRealty = (
 		.then(() => {
 			dispatch(updatePhotos(realtyId, formData)).then(() => {
 				dispatch(getRealtiesByOwnerId(ownerId));
+				dispatch(getCoords());
 				dispatch(setIsUpdating(false));
 				setShowEditRealtyCallback(false);
 				if (isAdmin) window.document.location.reload();

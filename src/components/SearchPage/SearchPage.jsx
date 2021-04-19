@@ -2,7 +2,6 @@ import React, { useRef } from "react";
 import "./SearchPage.css";
 import Map from "../Map/Map";
 import VirtualizedList from "../VirtualizedList/VirtualizedList";
-import MarkerImage from "../../images/2.svg";
 import FiltersBlock from "../FiltersBlock/FiltersBlock";
 
 const SearchPage = () => {

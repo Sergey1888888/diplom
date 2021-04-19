@@ -17,6 +17,8 @@ import {
 	DELETE_REALTY_IS_FETCHING,
 	SET_IS_UPDATING,
 	DELETE_ALL_WHEN_LOGOUT,
+	SET_COORDS,
+	DELETE_DATA_ON_CHANGE,
 } from "../actionTypes";
 
 const initialState = {
@@ -49,6 +51,7 @@ const initialState = {
 	ownerRealtiesIds: [],
 	isDeletingRealty: false,
 	isUpdating: false,
+	coords: [],
 };
 
 const realtyReducer = (state = initialState, action) => {
@@ -95,6 +98,10 @@ const realtyReducer = (state = initialState, action) => {
 			return { ...state, isUpdating: action.payload };
 		case DELETE_ALL_WHEN_LOGOUT:
 			return { ...state, ownerRealties: [], ownerRealtiesIds: [] };
+		case SET_COORDS:
+			return { ...state, coords: action.payload };
+		case DELETE_DATA_ON_CHANGE:
+			return { ...state, data: [], total: 0, currentPage: 1 };
 		default:
 			return state;
 	}

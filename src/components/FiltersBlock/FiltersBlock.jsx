@@ -24,6 +24,7 @@ const FiltersBlock = () => {
 				type="text"
 				style={{ width: "50%", height: "100%", textAlign: "center" }}
 				onClick={() => setShowFilters(!showFilters)}
+				className="fw300"
 			>
 				Фильтры
 			</Button>
@@ -34,11 +35,12 @@ const FiltersBlock = () => {
 				type="text"
 				style={{ width: "50%", height: "100%", textAlign: "center" }}
 				onClick={() => setShowSorts(!showSorts)}
+				className="fw300"
 			>
 				Сортировка
 			</Button>
 			<Animate component="" transitionName="fade">
-				{showSorts ? <Sorts setShowSorts={setShowSorts}/> : null}
+				{showSorts ? <Sorts setShowSorts={setShowSorts} /> : null}
 			</Animate>
 		</div>
 	);

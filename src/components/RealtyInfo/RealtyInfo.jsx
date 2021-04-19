@@ -10,7 +10,7 @@ const RealtyInfo = ({ realty }) => {
 					width: "100%",
 					display: "grid",
 					gridTemplateColumns: "2fr 8fr",
-					gridAutoRows: "30px",
+					gridAutoRows: "minmax(30px, fit-content)",
 					gap: "20px",
 				}}
 				className="parameters"
@@ -119,6 +119,8 @@ const RealtyInfo = ({ realty }) => {
 				{realty.territoryType && <div>{realty.territoryType}</div>}
 				{realty.furniture && <div>Описание мебели:</div>}
 				{realty.furniture && <div>{realty.furniture}</div>}
+				{realty.description && <div>Описание:</div>}
+				{realty.description && <div>{realty.description}</div>}
 			</div>
 			<h1 style={{ display: "grid", placeItems: "center", marginTop: "52px" }}>
 				Инфраструктурный рейтинг

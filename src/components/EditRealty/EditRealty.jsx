@@ -4,13 +4,20 @@ import { useSelector } from "react-redux";
 import EditRealtyForm from "../EditRealtyForm/EditRealtyForm";
 import { ProfileContext } from "../Profile/Profile";
 import RealtyImageUploader from "./../RealtyImageUploader/RealtyImageUploader";
-import { SearchPageHeaderContext } from "./../Header/Header";
+import {
+	RealtyPageHeaderContext,
+	SearchPageHeaderContext,
+} from "./../Header/Header";
 
-const EditRealty = ({ realty, setShowEditRealty, toCreate }) => {
+const EditRealty = ({ realty, setShowEditRealty, toCreate, isAdmin }) => {
 	const [isAllowedImage, setIsAllowedImage] = useState(true);
 	const isUpdating = useSelector((state) => state.realty.isUpdating);
 	const { fileList } = useContext(
-		toCreate ? SearchPageHeaderContext : ProfileContext
+		toCreate
+			? SearchPageHeaderContext
+			: isAdmin
+			? RealtyPageHeaderContext
+			: ProfileContext
 	);
 	const formRef = useRef();
 
@@ -23,6 +30,7 @@ const EditRealty = ({ realty, setShowEditRealty, toCreate }) => {
 			<RealtyImageUploader
 				setIsAllowedImage={setIsAllowedImage}
 				toCreate={toCreate}
+				isAdmin={isAdmin}
 			/>
 			<EditRealtyForm
 				realty={realty}
@@ -30,13 +38,14 @@ const EditRealty = ({ realty, setShowEditRealty, toCreate }) => {
 				toCreate={toCreate}
 				fileList={fileList}
 				setShowEditRealty={setShowEditRealty}
+				isAdmin={isAdmin}
 			/>
 			<Button
 				className="fw300"
 				type="primary"
 				loading={isUpdating}
 				onClick={handleUpload}
-				disabled={!isAllowedImage}
+				disabled={!isAllowedImage || fileList.length === 0}
 				style={{ width: "200px", alignSelf: "center" }}
 			>
 				{toCreate ? "Создать объявление" : "Обновить данные"}

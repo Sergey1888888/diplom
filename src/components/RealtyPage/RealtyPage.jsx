@@ -1,5 +1,5 @@
 import { LeftOutlined, RightOutlined } from "@ant-design/icons";
-import { Carousel } from "antd";
+import { Button, Carousel, Result } from "antd";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect, useHistory } from "react-router";
@@ -64,13 +64,23 @@ const RealtyPage = ({ match }) => {
 		nextArrow: <SampleNextArrow />,
 		prevArrow: <SamplePrevArrow />,
 	};
-	if (isNotFound) return <Redirect to={() => history.goBack()} />;
+	if (isNotFound)
+		return (
+			<Result
+				status="404"
+				title="404"
+				subTitle="Объявление не найдено"
+				extra={
+					<Button type="primary" onClick={() => history.goBack()}>
+						Назад
+					</Button>
+				}
+			/>
+		);
 	if (isLoading || !realty.photos) return <Preloader className="preloader" />;
 	return (
 		<div style={{ width: "100%", marginTop: "52px" }}>
-			<h1 style={{ display: "grid", placeItems: "center" }}>
-				Фото
-			</h1>
+			<h1 style={{ display: "grid", placeItems: "center" }}>Фото</h1>
 			<div style={{ width: "70%", height: "475px", margin: "0 auto" }}>
 				<Carousel
 					dots={false}

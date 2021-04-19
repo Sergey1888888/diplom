@@ -3,7 +3,10 @@ import { PlusOutlined } from "@ant-design/icons";
 import { Upload, message } from "antd";
 import { ProfileContext } from "../Profile/Profile";
 import Modal from "antd/lib/modal/Modal";
-import { SearchPageHeaderContext } from "../Header/Header";
+import {
+	RealtyPageHeaderContext,
+	SearchPageHeaderContext,
+} from "../Header/Header";
 
 function getBase64(file) {
 	return new Promise((resolve, reject) => {
@@ -14,9 +17,13 @@ function getBase64(file) {
 	});
 }
 
-const RealtyImageUploader = ({ setIsAllowedImage, toCreate }) => {
+const RealtyImageUploader = ({ setIsAllowedImage, toCreate, isAdmin }) => {
 	const { fileList, setFileList } = useContext(
-		toCreate ? SearchPageHeaderContext : ProfileContext
+		toCreate
+			? SearchPageHeaderContext
+			: isAdmin
+			? RealtyPageHeaderContext
+			: ProfileContext
 	);
 	const [previewVisible, setPreviewVisible] = useState(false);
 	const [previewImage, setPreviewImage] = useState("");

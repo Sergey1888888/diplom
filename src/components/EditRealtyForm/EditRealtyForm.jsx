@@ -13,6 +13,7 @@ const EditRealtyForm = ({
 	toCreate,
 	fileList,
 	setShowEditRealty,
+	isAdmin,
 }) => {
 	const [price, setPrice] = useState(toCreate ? null : realty.price);
 	const [street, setStreet] = useState(toCreate ? null : realty.street);
@@ -295,7 +296,8 @@ const EditRealtyForm = ({
 							values,
 							formData,
 							realty.ownerId,
-							setShowEditRealty
+							setShowEditRealty,
+							isAdmin
 						)
 					);
 				}

@@ -276,8 +276,12 @@ export const getRealtiesByOwnerId = (ownerId) => (dispatch) => {
 export const deleteRealtyById = (realtyId, ownerId) => (dispatch) => {
 	dispatch(deleteRealtyIsFetching(true));
 	return realtyAPI.deleteOwnersRealty(realtyId).then(() => {
-		dispatch(getRealtiesByOwnerId(ownerId));
-		dispatch(deleteRealtyIsFetching(false));
+		if (ownerId) {
+			dispatch(getRealtiesByOwnerId(ownerId));
+			dispatch(deleteRealtyIsFetching(false));
+		} else {
+			window.document.location.reload();
+		}
 	});
 };
 
@@ -289,13 +293,20 @@ export const createRealty = (
 ) => (dispatch) => {
 	dispatch(setIsUpdating(true));
 	data["ownerId"] = ownerId;
-	return realtyAPI.createRealty(data).then((realtyId) => {
-		dispatch(updatePhotos(realtyId, formData)).then(() => {
-			dispatch(getRealtiesByOwnerId(ownerId));
+	return realtyAPI
+		.createRealty(data)
+		.then((realtyId) => {
+			dispatch(updatePhotos(realtyId, formData)).then(() => {
+				dispatch(getRealtiesByOwnerId(ownerId));
+				dispatch(setIsUpdating(false));
+				setShowEditRealtyCallback(false);
+				window.document.location.reload();
+			});
+		})
+		.catch((error) => {
 			dispatch(setIsUpdating(false));
-			setShowEditRealtyCallback(false);
+			message.error("Такое объявление уже существует");
 		});
-	});
 };
 
 export const updatePhotos = (realtyId, formData) => (dispatch) => {
@@ -309,7 +320,8 @@ export const updateRealty = (
 	data,
 	formData,
 	ownerId,
-	setShowEditRealtyCallback
+	setShowEditRealtyCallback,
+	isAdmin
 ) => (dispatch) => {
 	dispatch(setIsUpdating(true));
 	return realtyAPI
@@ -319,6 +331,7 @@ export const updateRealty = (
 				dispatch(getRealtiesByOwnerId(ownerId));
 				dispatch(setIsUpdating(false));
 				setShowEditRealtyCallback(false);
+				if (isAdmin) window.document.location.reload();
 			});
 		})
 		.catch((error) => message.error("Ошибка обновления данных"));

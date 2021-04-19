@@ -22,6 +22,10 @@ body::-webkit-scrollbar-thumb {
 	height: 100%;
 }
 
+.slick-slider {
+	height: inherit;
+}
+
 .slick-list {
 	height: inherit;
 }

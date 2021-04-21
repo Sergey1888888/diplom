@@ -3,7 +3,7 @@ import ReactMapGl, { Marker } from "react-map-gl";
 import { CloseSquareOutlined, PushpinFilled } from "@ant-design/icons";
 import "mapbox-gl/dist/mapbox-gl.css";
 import { useDispatch, useSelector } from "react-redux";
-import { Button, message, Popover } from "antd";
+import { Button, Popover } from "antd";
 import { getCoords } from "../../redux/actions";
 import { useHistory } from "react-router";
 
@@ -15,7 +15,6 @@ const Map = () => {
 		dispatch(getCoords());
 	}, [dispatch]);
 	const [isVisible, setIsVisible] = useState([]);
-	const [isWarningShowed, setIsWarningShowed] = useState(false);
 	const markers = React.useMemo(
 		() =>
 			coords.map((realty) => {
@@ -97,14 +96,12 @@ const Map = () => {
 		longitude: 44.516939,
 		zoom: 11,
 	});
-	useEffect(() => {
-		if (isVisible.length === 0) setIsWarningShowed(false);
-	}, [isVisible]);
-	const awareMessage = () => {
-		if (!isWarningShowed) {
-			message.warn("Закройте предпросмотр прежде чем двигать карту");
-			setIsWarningShowed(true);
-		}
+	const closePopovers = () => {
+		setIsVisible([]);
+	};
+	const onViewportChange = (value) => {
+		closePopovers();
+		setViewport(value);
 	};
 	return (
 		<ReactMapGl
@@ -112,7 +109,7 @@ const Map = () => {
 			width="60%"
 			height="100%"
 			mapStyle="mapbox://styles/follex/ckm6poqh3cjbd17o5gtpfc6u3"
-			onViewportChange={isVisible.length === 0 ? setViewport : awareMessage}
+			onViewportChange={onViewportChange}
 			mapboxApiAccessToken="pk.eyJ1IjoiZm9sbGV4IiwiYSI6ImNrZjN0MXBqYTA2YzAyem5vYWh0OXJ4eWcifQ.T10EKgjFamd6JnCRJr4_Ow"
 		>
 			{markers}

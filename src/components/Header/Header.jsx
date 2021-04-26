@@ -9,6 +9,7 @@ import { deleteRealtyById, Logout } from "../../redux/actions";
 import Preloader from "../Common/Preloader/Preloader";
 import EditRealty from "../EditRealty/EditRealty";
 import { QuestionCircleOutlined } from "@ant-design/icons";
+import { getOrCreateChat } from "react-chat-engine";
 
 const HomePageHeader = ({ onLogoutClick, openModal, profile }) => {
 	return (
@@ -114,6 +115,7 @@ const RealtyPageHeader = () => {
 	const selectedRealty = useSelector((state) => state.realty.selectedRealty);
 	const isNotFound = useSelector((state) => state.realty.isNotFound);
 	const isAdmin = useSelector((state) => state.users.profile?.isAdmin);
+	const userId = useSelector((state) => state.auth.userId);
 	const [showEditRealty, setShowEditRealty] = useState(false);
 	const [fileList, setFileList] = useState([]);
 	const isDeletingRealty = useSelector(
@@ -208,14 +210,56 @@ const RealtyPageHeader = () => {
 								>
 									Редактировать
 								</Button>,
-								<Button key="3" type="primary" className="fw300 fs14">
-									Связаться
-								</Button>,
+								<Link to="/chat">
+									<Button
+										key="3"
+										type="primary"
+										className="fw300 fs14"
+										onClick={() => {
+											if (selectedRealty.ownerId !== userId)
+												getOrCreateChat(
+													{
+														"Project-ID":
+															"a3a43f92-82fe-42e9-8fd2-e860fa532324",
+														"User-Name": userId,
+														"User-Secret": localStorage.getItem("__password"),
+													},
+													{
+														is_direct_chat: true,
+														usernames: [selectedRealty.ownerId],
+													}
+												);
+										}}
+									>
+										Связаться
+									</Button>
+								</Link>,
 						  ]
 						: [
-								<Button key="1" type="primary" className="fw300 fs14">
-									Связаться
-								</Button>,
+								<Link to="/chat">
+									<Button
+										key="3"
+										type="primary"
+										className="fw300 fs14"
+										onClick={() => {
+											if (selectedRealty.ownerId !== userId)
+												getOrCreateChat(
+													{
+														"Project-ID":
+															"a3a43f92-82fe-42e9-8fd2-e860fa532324",
+														"User-Name": userId,
+														"User-Secret": localStorage.getItem("__password"),
+													},
+													{
+														is_direct_chat: true,
+														usernames: [selectedRealty.ownerId],
+													}
+												);
+										}}
+									>
+										Связаться
+									</Button>
+								</Link>,
 						  ]
 				}
 			/>
@@ -243,11 +287,7 @@ const Header = ({ openModal, profile }) => {
 				</>
 			) : isRealtyPage ? (
 				<>
-					<RealtyPageHeader
-						onLogoutClick={onLogoutClick}
-						openModal={openModal}
-						profile={profile}
-					/>
+					<RealtyPageHeader />
 					<div className="line"></div>
 				</>
 			) : (

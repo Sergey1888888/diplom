@@ -28,6 +28,7 @@ import {
 	DELETE_ALL_WHEN_LOGOUT,
 	SET_COORDS,
 	DELETE_DATA_ON_CHANGE,
+	SET_PASSWORD,
 } from "./actionTypes";
 import { authAPI, realtyAPI, setToken, usersAPI } from "./../api/api";
 import { message, notification } from "antd";
@@ -105,6 +106,7 @@ export const Login = (email, password) => (dispatch) => {
 		.then((data) => {
 			setToken(data.access_token);
 			dispatch(getLogin());
+			localStorage.setItem("__password", password);
 		})
 		.catch((error) => {
 			message.error("Неправильный логин или пароль");

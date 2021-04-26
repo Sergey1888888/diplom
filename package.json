@@ -18,6 +18,7 @@
     "rc-animate": "^3.1.1",
     "rc-tween-one": "^2.7.3",
     "react": "^16.14.0",
+    "react-chat-engine": "github:Sergey1888888/react-chat-engine",
     "react-dom": "^16.14.0",
     "react-map-gl": "^6.1.11",
     "react-redux": "^7.2.1",

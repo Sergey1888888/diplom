@@ -11,6 +11,7 @@ import Profile from "./components/Profile/Profile";
 import PrivateRoute from "./components/hoc/PrivateRoute/PrivateRoute";
 import RealtyPage from "./components/RealtyPage/RealtyPage";
 import Preloader from "./components/Common/Preloader/Preloader";
+import Chat from "./components/Chat/Chat";
 
 class App extends React.Component {
 	componentDidMount() {
@@ -30,6 +31,9 @@ class App extends React.Component {
 						/>
 						<PrivateRoute exact path="/profile">
 							<Profile />
+						</PrivateRoute>
+						<PrivateRoute exact path="/chat">
+							<Chat />
 						</PrivateRoute>
 						<Route
 							render={() => (

@@ -2,11 +2,11 @@ import React from "react";
 import { Spin } from "antd";
 import { LoadingOutlined } from "@ant-design/icons";
 
-const Preloader = ({ size = "small", className }) => {
+const Preloader = ({ size = "small", className, style }) => {
 	const fontSizeLoader = size === "large" ? "120px" : "24px";
 	const fontSizeText = size === "large" ? "40px" : "12px";
 	return (
-		<div className={className}>
+		<div className={className} style={style}>
 			<Spin
 				indicator={
 					<LoadingOutlined

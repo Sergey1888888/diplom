@@ -9,7 +9,6 @@ import { deleteRealtyById, Logout } from "../../redux/actions";
 import Preloader from "../Common/Preloader/Preloader";
 import EditRealty from "../EditRealty/EditRealty";
 import { QuestionCircleOutlined } from "@ant-design/icons";
-import { getOrCreateChat } from "react-chat-engine";
 
 const HomePageHeader = ({ onLogoutClick, openModal, profile }) => {
 	return (
@@ -22,6 +21,11 @@ const HomePageHeader = ({ onLogoutClick, openModal, profile }) => {
 			<div className={cn("logoutSearchWrapper", { logged: !profile })}>
 				{profile ? (
 					<>
+						<Link to="/chat" className="authName">
+							<Button className="logout" type="default">
+								Чат
+							</Button>
+						</Link>
 						<Link to="/profile" className="authName">
 							<Button className="logout" type="default">
 								Профиль
@@ -90,6 +94,11 @@ const SearchPageHeader = ({ onLogoutClick, openModal, profile }) => {
 						>
 							Создать объявление
 						</Button>
+						<Link to="/chat" className="authName">
+							<Button className="logout" type="default">
+								Чат
+							</Button>
+						</Link>
 						<Link to="/profile" className="authName">
 							<Button className="logout" type="default">
 								Профиль
@@ -210,53 +219,41 @@ const RealtyPageHeader = () => {
 								>
 									Редактировать
 								</Button>,
-								<Link to="/chat">
-									<Button
-										key="3"
-										type="primary"
-										className="fw300 fs14"
-										onClick={() => {
-											if (selectedRealty.ownerId !== userId)
-												getOrCreateChat(
-													{
-														"Project-ID":
-															"a3a43f92-82fe-42e9-8fd2-e860fa532324",
-														"User-Name": userId,
-														"User-Secret": localStorage.getItem("__password"),
-													},
-													{
-														is_direct_chat: true,
-														usernames: [selectedRealty.ownerId],
-													}
-												);
-										}}
-									>
+								<Link
+									to={{
+										pathname: "/chat",
+										state: {
+											isNotMe: selectedRealty.ownerId !== userId,
+											authObject: {
+												"Project-ID": "a3a43f92-82fe-42e9-8fd2-e860fa532324",
+												"User-Name": userId,
+												"User-Secret": localStorage.getItem("__password"),
+											},
+											username: selectedRealty.ownerId,
+										},
+									}}
+								>
+									<Button key="3" type="primary" className="fw300 fs14">
 										Связаться
 									</Button>
 								</Link>,
 						  ]
 						: [
-								<Link to="/chat">
-									<Button
-										key="3"
-										type="primary"
-										className="fw300 fs14"
-										onClick={() => {
-											if (selectedRealty.ownerId !== userId)
-												getOrCreateChat(
-													{
-														"Project-ID":
-															"a3a43f92-82fe-42e9-8fd2-e860fa532324",
-														"User-Name": userId,
-														"User-Secret": localStorage.getItem("__password"),
-													},
-													{
-														is_direct_chat: true,
-														usernames: [selectedRealty.ownerId],
-													}
-												);
-										}}
-									>
+								<Link
+									to={{
+										pathname: "/chat",
+										state: {
+											isNotMe: selectedRealty.ownerId !== userId,
+											authObject: {
+												"Project-ID": "a3a43f92-82fe-42e9-8fd2-e860fa532324",
+												"User-Name": userId,
+												"User-Secret": localStorage.getItem("__password"),
+											},
+											username: selectedRealty.ownerId,
+										},
+									}}
+								>
+									<Button key="3" type="primary" className="fw300 fs14">
 										Связаться
 									</Button>
 								</Link>,

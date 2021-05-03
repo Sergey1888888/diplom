@@ -28,7 +28,6 @@ import {
 	DELETE_ALL_WHEN_LOGOUT,
 	SET_COORDS,
 	DELETE_DATA_ON_CHANGE,
-	SET_PASSWORD,
 } from "./actionTypes";
 import { authAPI, realtyAPI, setToken, usersAPI } from "./../api/api";
 import { message, notification } from "antd";

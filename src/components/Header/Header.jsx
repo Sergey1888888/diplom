@@ -1,4 +1,4 @@
-import React, { createContext, useState } from "react";
+import React, { createContext, useEffect, useState } from "react";
 import { Button, Modal, PageHeader, Popconfirm } from "antd";
 import { Link, useHistory, useLocation } from "react-router-dom";
 import Logo from "../Common/Logo/Logo";
@@ -9,6 +9,7 @@ import { deleteRealtyById, Logout } from "../../redux/actions";
 import Preloader from "../Common/Preloader/Preloader";
 import EditRealty from "../EditRealty/EditRealty";
 import { QuestionCircleOutlined } from "@ant-design/icons";
+import { getProfile } from "../../redux/actions";
 
 const HomePageHeader = ({ onLogoutClick, openModal, profile }) => {
 	return (
@@ -124,9 +125,12 @@ const RealtyPageHeader = () => {
 	const selectedRealty = useSelector((state) => state.realty.selectedRealty);
 	const isNotFound = useSelector((state) => state.realty.isNotFound);
 	const isAdmin = useSelector((state) => state.users.profile?.isAdmin);
+	const profile = useSelector((state) => state.users.profile);
 	const userId = useSelector((state) => state.auth.userId);
+	const isAuth = useSelector((state) => state.auth.isAuth);
 	const [showEditRealty, setShowEditRealty] = useState(false);
 	const [fileList, setFileList] = useState([]);
+	const [showModalSocial, setShowModalSocial] = useState(false);
 	const isDeletingRealty = useSelector(
 		(state) => state.realty.isDeletingRealty
 	);
@@ -143,8 +147,43 @@ const RealtyPageHeader = () => {
 			selectedRealty.district.slice(0, selectedRealty.district.length - 2) +
 			"ом";
 	}
+	const showModalSocialWindow = () => {
+		setShowModalSocial(true);
+	};
+	useEffect(() => {
+		if (selectedRealty.ownerId) dispatch(getProfile(selectedRealty.ownerId));
+	}, [selectedRealty.ownerId]);
 	return (
 		<>
+			{showModalSocial && (
+				<Modal
+					title="Социальные сети"
+					visible={showModalSocial}
+					onCancel={() => setShowModalSocial(false)}
+					className="fw300"
+					footer={null}
+					style={{ minWidth: "20%" }}
+					centered={true}
+				>
+					<div
+						style={{
+							display: "flex",
+							flexDirection: "column",
+							alignItems: "center",
+						}}
+					>
+						<div>{`VK: ${
+							profile?.vk ? profile.vk : "владелец не указал"
+						}`}</div>
+						<div>{`Telegram: ${
+							profile?.telegram ? profile.telegram : "владелец не указал"
+						}`}</div>
+						<div>{`WhatsApp: ${
+							profile?.whatsapp ? profile.whatsapp : "владелец не указал"
+						}`}</div>
+					</div>
+				</Modal>
+			)}
 			{showEditRealty && (
 				<Modal
 					title="Редактирование объявления"
@@ -219,44 +258,66 @@ const RealtyPageHeader = () => {
 								>
 									Редактировать
 								</Button>,
-								<Link
-									to={{
-										pathname: "/chat",
-										state: {
-											isNotMe: selectedRealty.ownerId !== userId,
-											authObject: {
-												"Project-ID": "a3a43f92-82fe-42e9-8fd2-e860fa532324",
-												"User-Name": userId,
-												"User-Secret": localStorage.getItem("__password"),
+								isAuth ? (
+									<Link
+										to={{
+											pathname: "/chat",
+											state: {
+												isNotMe: selectedRealty.ownerId !== userId,
+												authObject: {
+													"Project-ID": "a3a43f92-82fe-42e9-8fd2-e860fa532324",
+													"User-Name": userId,
+													"User-Secret": localStorage.getItem("__password"),
+												},
+												username: selectedRealty.ownerId,
 											},
-											username: selectedRealty.ownerId,
-										},
-									}}
-								>
-									<Button key="3" type="primary" className="fw300 fs14">
+										}}
+									>
+										<Button key="3" type="primary" className="fw300 fs14">
+											Связаться
+										</Button>
+									</Link>
+								) : (
+									<Button
+										key="3"
+										type="primary"
+										className="fw300 fs14"
+										onClick={showModalSocialWindow}
+									>
 										Связаться
 									</Button>
-								</Link>,
+								),
 						  ]
 						: [
-								<Link
-									to={{
-										pathname: "/chat",
-										state: {
-											isNotMe: selectedRealty.ownerId !== userId,
-											authObject: {
-												"Project-ID": "a3a43f92-82fe-42e9-8fd2-e860fa532324",
-												"User-Name": userId,
-												"User-Secret": localStorage.getItem("__password"),
+								isAuth ? (
+									<Link
+										to={{
+											pathname: "/chat",
+											state: {
+												isNotMe: selectedRealty.ownerId !== userId,
+												authObject: {
+													"Project-ID": "a3a43f92-82fe-42e9-8fd2-e860fa532324",
+													"User-Name": userId,
+													"User-Secret": localStorage.getItem("__password"),
+												},
+												username: selectedRealty.ownerId,
 											},
-											username: selectedRealty.ownerId,
-										},
-									}}
-								>
-									<Button key="3" type="primary" className="fw300 fs14">
+										}}
+									>
+										<Button key="3" type="primary" className="fw300 fs14">
+											Связаться
+										</Button>
+									</Link>
+								) : (
+									<Button
+										key="3"
+										type="primary"
+										className="fw300 fs14"
+										onClick={showModalSocialWindow}
+									>
 										Связаться
 									</Button>
-								</Link>,
+								),
 						  ]
 				}
 			/>

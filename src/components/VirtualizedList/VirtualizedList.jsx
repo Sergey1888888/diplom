@@ -266,6 +266,18 @@ class VirtualizedExample extends React.Component {
 						{infiniteLoader}
 					</WindowScroller>
 				)}
+				{data.length === 0 && !this.props.isLoading && (
+					<div
+						className="fw500"
+						style={{
+							display: "grid",
+							placeItems: "center",
+							paddingTop: "20px",
+						}}
+					>
+						Не найдено
+					</div>
+				)}
 				{this.props.isLoading && <Preloader className="demo-loading" />}
 			</List>
 		);

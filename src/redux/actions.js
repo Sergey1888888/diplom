@@ -28,6 +28,7 @@ import {
 	DELETE_ALL_WHEN_LOGOUT,
 	SET_COORDS,
 	DELETE_DATA_ON_CHANGE,
+	SET_OWNER_PROFILE,
 } from "./actionTypes";
 import { authAPI, realtyAPI, setToken, usersAPI } from "./../api/api";
 import { message, notification } from "antd";
@@ -37,6 +38,10 @@ export const setProfile = (payload) => ({ type: SET_PROFILE, payload });
 export const deleteProfile = () => ({ type: DELETE_PROFILE });
 export const isUpdateProfileLoading = (payload) => ({
 	type: UPDATE_PROFILE_IS_LOADING,
+	payload,
+});
+export const setOwnerProfile = (payload) => ({
+	type: SET_OWNER_PROFILE,
 	payload,
 });
 
@@ -49,6 +54,13 @@ export const getProfile = (id) => (dispatch) => {
 		.catch((error) => {
 			console.log(error);
 		});
+};
+
+export const getOwnerProfile = (id) => (dispatch) => {
+	return usersAPI
+		.getProfile(id)
+		.then((data) => dispatch(setOwnerProfile(data)))
+		.catch((error) => console.log(error));
 };
 
 export const updateProfile = (id, updatedProfile) => (dispatch) => {

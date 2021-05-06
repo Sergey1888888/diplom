@@ -5,11 +5,10 @@ import Logo from "../Common/Logo/Logo";
 import cn from "classnames";
 import "./Header.css";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteRealtyById, Logout } from "../../redux/actions";
+import { deleteRealtyById, getOwnerProfile, Logout } from "../../redux/actions";
 import Preloader from "../Common/Preloader/Preloader";
 import EditRealty from "../EditRealty/EditRealty";
 import { QuestionCircleOutlined } from "@ant-design/icons";
-import { getProfile } from "../../redux/actions";
 
 const HomePageHeader = ({ onLogoutClick, openModal, profile }) => {
 	return (
@@ -125,7 +124,7 @@ const RealtyPageHeader = () => {
 	const selectedRealty = useSelector((state) => state.realty.selectedRealty);
 	const isNotFound = useSelector((state) => state.realty.isNotFound);
 	const isAdmin = useSelector((state) => state.users.profile?.isAdmin);
-	const profile = useSelector((state) => state.users.profile);
+	const profile = useSelector((state) => state.users.ownerProfile);
 	const userId = useSelector((state) => state.auth.userId);
 	const isAuth = useSelector((state) => state.auth.isAuth);
 	const [showEditRealty, setShowEditRealty] = useState(false);
@@ -151,7 +150,8 @@ const RealtyPageHeader = () => {
 		setShowModalSocial(true);
 	};
 	useEffect(() => {
-		if (selectedRealty.ownerId) dispatch(getProfile(selectedRealty.ownerId));
+		if (selectedRealty.ownerId)
+			dispatch(getOwnerProfile(selectedRealty.ownerId));
 	}, [selectedRealty.ownerId]);
 	return (
 		<>

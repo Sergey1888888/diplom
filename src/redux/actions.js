@@ -224,9 +224,8 @@ export const deleteAllWhenLogout = () => ({ type: DELETE_ALL_WHEN_LOGOUT });
 export const setCoords = (payload) => ({ type: SET_COORDS, payload });
 export const deleteDataOnChange = () => ({ type: DELETE_DATA_ON_CHANGE });
 
-export const getCoords = () => (dispatch) => {
-	return realtyAPI.getCoords().then((data) => {
-		console.log(data);
+export const getCoords = (filters) => (dispatch) => {
+	return realtyAPI.getCoords(filters).then((data) => {
 		dispatch(setCoords(data));
 	});
 };
@@ -245,39 +244,41 @@ export const getRealtyById = (id) => (dispatch) => {
 		});
 };
 
-export const getTotal = (filters = {}) => (dispatch) => {
-	return realtyAPI
-		.getTotal(filters)
-		.then((data) => {
-			dispatch(setTotal(data));
-		})
-		.catch((error) => console.log(error));
-};
+export const getTotal =
+	(filters = {}) =>
+	(dispatch) => {
+		return realtyAPI
+			.getTotal(filters)
+			.then((data) => {
+				dispatch(setTotal(data));
+			})
+			.catch((error) => console.log(error));
+	};
 
-export const getData = (currentPage, filters = {}, sorts = {}) => (
-	dispatch,
-	getState
-) => {
-	dispatch(setIsLoading(true));
-	return realtyAPI
-		.paginate(currentPage, filters, sorts)
-		.then((data) => {
-			dispatch(setData(data));
-			dispatch(getTotal(filters));
-			const hasNextPage =
-				Math.ceil(getState().realty.total / 2) !== currentPage;
-			dispatch(setHasNextPage(hasNextPage));
-			if (hasNextPage) dispatch(setCurrentPage(currentPage + 1));
-			dispatch(setIsLoading(false));
-		})
-		.catch((error) => {
-			dispatch(setIsLoading(false));
-			if (
-				error?.response?.data?.message === "minPrice must be less than maxPrice"
-			)
-				message.error("Минимальная цена должна быть больше максимальной!");
-		});
-};
+export const getData =
+	(currentPage, filters = {}, sorts = {}) =>
+	(dispatch, getState) => {
+		dispatch(setIsLoading(true));
+		return realtyAPI
+			.paginate(currentPage, filters, sorts)
+			.then((data) => {
+				dispatch(setData(data));
+				dispatch(getTotal(filters));
+				const hasNextPage =
+					Math.ceil(getState().realty.total / 2) !== currentPage;
+				dispatch(setHasNextPage(hasNextPage));
+				if (hasNextPage) dispatch(setCurrentPage(currentPage + 1));
+				dispatch(setIsLoading(false));
+			})
+			.catch((error) => {
+				dispatch(setIsLoading(false));
+				if (
+					error?.response?.data?.message ===
+					"minPrice must be less than maxPrice"
+				)
+					message.error("Минимальная цена должна быть больше максимальной!");
+			});
+	};
 
 export const getRealtiesByOwnerId = (ownerId) => (dispatch) => {
 	dispatch(setIsOwnersRealtiesLoading(true));
@@ -311,30 +312,26 @@ export const deleteRealtyById = (realtyId, ownerId) => (dispatch) => {
 	});
 };
 
-export const createRealty = (
-	data,
-	formData,
-	ownerId,
-	setShowEditRealtyCallback
-) => (dispatch) => {
-	dispatch(setIsUpdating(true));
-	data["ownerId"] = ownerId;
-	return realtyAPI
-		.createRealty(data)
-		.then((realtyId) => {
-			dispatch(updatePhotos(realtyId, formData)).then(() => {
-				dispatch(getRealtiesByOwnerId(ownerId));
-				dispatch(getCoords());
+export const createRealty =
+	(data, formData, ownerId, setShowEditRealtyCallback) => (dispatch) => {
+		dispatch(setIsUpdating(true));
+		data["ownerId"] = ownerId;
+		return realtyAPI
+			.createRealty(data)
+			.then((realtyId) => {
+				dispatch(updatePhotos(realtyId, formData)).then(() => {
+					dispatch(getRealtiesByOwnerId(ownerId));
+					dispatch(getCoords());
+					dispatch(setIsUpdating(false));
+					setShowEditRealtyCallback(false);
+					window.document.location.reload();
+				});
+			})
+			.catch((error) => {
 				dispatch(setIsUpdating(false));
-				setShowEditRealtyCallback(false);
-				window.document.location.reload();
+				message.error("Такое объявление уже существует");
 			});
-		})
-		.catch((error) => {
-			dispatch(setIsUpdating(false));
-			message.error("Такое объявление уже существует");
-		});
-};
+	};
 
 export const updatePhotos = (realtyId, formData) => (dispatch) => {
 	return realtyAPI
@@ -342,28 +339,23 @@ export const updatePhotos = (realtyId, formData) => (dispatch) => {
 		.catch((error) => message.error("Ошибка загрузки фотографий"));
 };
 
-export const updateRealty = (
-	realtyId,
-	data,
-	formData,
-	ownerId,
-	setShowEditRealtyCallback,
-	isAdmin
-) => (dispatch) => {
-	dispatch(setIsUpdating(true));
-	return realtyAPI
-		.updateRealty(realtyId, data)
-		.then(() => {
-			dispatch(updatePhotos(realtyId, formData)).then(() => {
-				dispatch(getRealtiesByOwnerId(ownerId));
-				dispatch(getCoords());
-				dispatch(setIsUpdating(false));
-				setShowEditRealtyCallback(false);
-				if (isAdmin) window.document.location.reload();
-			});
-		})
-		.catch((error) => message.error("Ошибка обновления данных"));
-};
+export const updateRealty =
+	(realtyId, data, formData, ownerId, setShowEditRealtyCallback, isAdmin) =>
+	(dispatch) => {
+		dispatch(setIsUpdating(true));
+		return realtyAPI
+			.updateRealty(realtyId, data)
+			.then(() => {
+				dispatch(updatePhotos(realtyId, formData)).then(() => {
+					dispatch(getRealtiesByOwnerId(ownerId));
+					dispatch(getCoords());
+					dispatch(setIsUpdating(false));
+					setShowEditRealtyCallback(false);
+					if (isAdmin) window.document.location.reload();
+				});
+			})
+			.catch((error) => message.error("Ошибка обновления данных"));
+	};
 
 export const getHasNextPage = () => async (dispatch, getState) => {
 	return (

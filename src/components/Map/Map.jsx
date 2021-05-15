@@ -9,11 +9,12 @@ import { useHistory } from "react-router";
 
 const Map = () => {
 	const coords = useSelector((state) => state.realty.coords);
+	const filters = useSelector((state) => state.realty.filters);
 	const history = useHistory();
 	const dispatch = useDispatch();
 	useEffect(() => {
-		dispatch(getCoords());
-	}, [dispatch]);
+		dispatch(getCoords(filters));
+	}, [dispatch, filters]);
 	const [isVisible, setIsVisible] = useState([]);
 	const markers = React.useMemo(
 		() =>

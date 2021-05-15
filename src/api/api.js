@@ -96,7 +96,9 @@ export const realtyAPI = {
 	createRealty(data) {
 		return instance.post(`realty`, data).then((response) => response.data);
 	},
-	getCoords() {
-		return instance.get(`realty/coords`).then((response) => response.data);
+	getCoords(filters = {}) {
+		return instance
+			.get(`realty/coords?filter=${JSON.stringify(filters)}`)
+			.then((response) => response.data);
 	},
 };

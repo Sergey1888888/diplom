@@ -292,7 +292,7 @@ export const getRealtiesByOwnerId = (ownerId) => (dispatch) => {
 		})
 		.catch((error) => {
 			console.log(
-				"Ошибка поиска своих объявлений: " + error.response.statusText
+				"Ошибка поиска своих объявлений: " + error.response?.statusText
 			);
 			dispatch(setIsOwnersRealtiesLoading(false));
 		});

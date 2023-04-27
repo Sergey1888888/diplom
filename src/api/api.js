@@ -2,7 +2,7 @@ import * as axios from "axios";
 
 export let token = localStorage.getItem("token");
 let instance = axios.create({
-	baseURL: "https://nestjs-test-api.herokuapp.com/",
+	baseURL: process.env.REACT_APP_API_URL,
 	headers: {
 		Authorization: `Bearer ${token}`,
 	},
@@ -12,7 +12,7 @@ export const setToken = (access_token) => {
 	else localStorage.removeItem("token");
 	token = localStorage.getItem("token");
 	instance = axios.create({
-		baseURL: "https://nestjs-test-api.herokuapp.com/",
+		baseURL: process.env.REACT_APP_API_URL,
 		headers: {
 			Authorization: `Bearer ${token}`,
 		},

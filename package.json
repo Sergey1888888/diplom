@@ -28,10 +28,11 @@
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
     "reqwest": "^2.0.5",
+    "vercel": "^29.0.0",
     "yup": "^0.32.9"
   },
   "scripts": {
-    "start": "craco start",
+    "start": "craco --openssl-legacy-provider start",
     "build": "craco build",
     "test": "craco test",
     "eject": "react-scripts eject"
